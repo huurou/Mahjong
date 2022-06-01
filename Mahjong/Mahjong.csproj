@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mahjong.Application\Mahjong.Application.csproj" />
+    <ProjectReference Include="..\Mahjong.Domain\Mahjong.Domain.csproj" />
+    <ProjectReference Include="..\Mahjong.Infrastructure\Mahjong.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
