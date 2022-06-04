@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Text;
 using static Mahjong.Domain.Models.Tiles.TileKind;
 
 namespace Mahjong.Domain.Models.Tiles
@@ -14,46 +15,45 @@ namespace Mahjong.Domain.Models.Tiles
 
         public int Length => tiles_.Length;
 
+        public TileList TileList
+        {
+            get
+            {
+                var list = new TileList();
+                for (var i = 0; i < Length; i++)
+                {
+                    for (var j = 0; j < tiles_[i]; j++)
+                    {
+                        list.Add(new(i * 4 + j));
+                    }
+                }
+                return list;
+            }
+        }
+        public TileKindList KindList => TileList.KindList;
+
         public override bool Equals(ValueObject<TileArray>? other)
         {
             return other is TileArray array && this.SequenceEqual(array);
-        }
-
-        public TileList ToTileList()
-        {
-            var list = new TileList();
-            for (var i = 0; i < Length; i++)
-            {
-                for (var j = 0; j < tiles_[i]; j++)
-                {
-                    list.Add(new(i * 4 + j));
-                }
-            }
-            return list;
-        }
-
-        public TileKindList ToTileKindList()
-        {
-            return ToTileList().ToKindList();
         }
 
         /// <summary>
         /// 自身及び隣り合った牌が存在しないTileKindのリストを返す
         /// </summary>
         /// <returns>自身及び隣り合った牌が存在しないTileKindのリスト</returns>
-        internal List<TileKind> FindIsolatedKinds()
+        internal TileKindList FindIsolatedKindList()
         {
-            var isolated = new List<TileKind>();
-            for (var kind = None; kind <= Chun; kind++)
+            var isolated = new TileKindList();
+            for (var kind = Man1; kind <= Chun; kind++)
             {
                 if (kind.IsHonor() && this[kind] == 0)
                 {
                     isolated.Add(kind);
                     continue;
                 }
-                if (kind.Simplify() == 1 && this[kind] == 0 && this[kind + 1] == 0 ||
-                    kind.Simplify() == 9 && this[kind - 1] == 0 && this[kind] == 0
-                    || this[kind - 1] == 0 && this[kind] == 0 && this[kind + 1] == 0)
+                if (kind.Simplify() is 1 && this[kind] == 0 && this[kind + 1] == 0 ||
+                    kind.Simplify() is >= 2 and <= 8 && this[kind - 1] == 0 && this[kind] == 0 && this[kind + 1] == 0 ||
+                    kind.Simplify() is 9 && this[kind - 1] == 0 && this[kind] == 0)
                 {
                     isolated.Add(kind);
                 }
@@ -61,25 +61,9 @@ namespace Mahjong.Domain.Models.Tiles
             return isolated;
         }
 
-        internal bool IsStrictlyIsolated(TileKind kind)
-        {
-            var hand = Clone();
-            if (hand[kind] > 0) hand[kind]--;
-            return kind.IsHonor()
-                ? hand[kind] == 0
-                : (kind.Simplify() switch
-                {
-                    1 => new List<TileKind> { kind, kind + 1, kind + 2 },
-                    2 => new List<TileKind> { kind - 1, kind, kind + 1, kind + 2 },
-                    8 => new List<TileKind> { kind - 2, kind - 1, kind, kind + 1 },
-                    9 => new List<TileKind> { kind - 2, kind - 1, kind },
-                    _ => new List<TileKind> { kind - 2, kind - 1, kind, kind + 1, kind + 2 },
-                }).All(x => hand[x] == 0);
-        }
-
         public static TileArray Parse(string man = "", string pin = "", string sou = "", string honor = "", bool hasAkaDora = false)
         {
-            return TileList.Parse(man, pin, sou, honor, hasAkaDora).ToTileArray();
+            return TileList.Parse(man, pin, sou, honor, hasAkaDora).TileArray;
         }
 
         public TileArray Clone()
@@ -92,14 +76,30 @@ namespace Mahjong.Domain.Models.Tiles
             return array;
         }
 
-        public string ToOneLineString(bool printAkaDora = false)
-        {
-            return ToTileList().ToOneLineString(printAkaDora);
-        }
-
         public override string ToString()
         {
-            return ToTileList().ToString();
+            var sb = new StringBuilder();
+            sb.Append("man:");
+            for (var kind = Man1; kind <= Man9; kind++)
+            {
+                sb.Append(this[kind]);
+            }
+            sb.Append("pin:");
+            for (var kind = Pin1; kind <= Pin9; kind++)
+            {
+                sb.Append(this[kind]);
+            }
+            sb.Append("sou:");
+            for (var kind = Sou1; kind <= Sou9; kind++)
+            {
+                sb.Append(this[kind]);
+            }
+            sb.Append("honors:");
+            for (var kind = East; kind <= Chun; kind++)
+            {
+                sb.Append(this[kind]);
+            }
+            return sb.ToString();
         }
 
         public IEnumerator<int> GetEnumerator()

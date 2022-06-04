@@ -14,6 +14,20 @@ namespace Mahjong.Domain.Models.Tiles
 
         public bool IsReadOnly => false;
 
+        public TileArray TileArray
+        {
+            get
+            {
+                var array = new TileArray();
+                foreach (var tile in tiles_)
+                {
+                    array[tile.Kind]++;
+                }
+                return array;
+            }
+        }
+        public TileKindList KindList => new(tiles_.Select(x => x.Kind));
+
         public Tile this[int index] { get => tiles_[index]; set => tiles_[index] = value; }
 
         public TileList()
@@ -44,27 +58,12 @@ namespace Mahjong.Domain.Models.Tiles
             return false;
         }
 
-        public TileArray ToTileArray()
-        {
-            var array = new TileArray();
-            foreach (var tile in tiles_)
-            {
-                array[tile.Kind]++;
-            }
-            return array;
-        }
-
-        public TileKindList ToKindList()
-        {
-            return new(tiles_.Select(x => x.Kind));
-        }
-
-        public static TileList Parse(string man = "", string pin = "", string sou = "", string honor = "", bool hasAkaDora = false)
+        public static TileList Parse(string man = "", string pin = "", string sou = "", string honors = "", bool hasAkaDora = false)
         {
             return new(SplitString(man, 0, Tile.FIVE_RED_MAN.Id.Value)
                 .Concat(SplitString(pin, 36, Tile.FIVE_RED_PIN.Id.Value))
                 .Concat(SplitString(sou, 72, Tile.FIVE_RED_SOU.Id.Value))
-                .Concat(SplitString(honor, 108, -1)));
+                .Concat(SplitString(honors, 108, -1)));
 
             IEnumerable<int> SplitString(string str, int offset, int red)
             {
@@ -81,7 +80,7 @@ namespace Mahjong.Domain.Models.Tiles
                     else
                     {
                         if (!int.TryParse(c.ToString(), out var i)) throw new ApplicationException($"数字とr以外の文字が含まれています。str:{str}");
-                        var id = i * 4 + offset;
+                        var id = i * 4 + offset - 1;
                         if (id == red && hasAkaDora) id++;
                         if (data.Contains(id))
                         {
@@ -99,9 +98,23 @@ namespace Mahjong.Domain.Models.Tiles
             }
         }
 
-        public string ToOneLineString(bool printAkaDora = false)
+        /// <summary>
+        /// 自身及び隣り合った牌が存在しないTileKindのリストを返す
+        /// </summary>
+        /// <returns>自身及び隣り合った牌が存在しないTileKindのリスト</returns>
+        public TileKindList FindIsolatedKindList()
         {
-            return string.Join("", tiles_.Select(x => x.ToOneLineString(printAkaDora)));
+            return TileArray.FindIsolatedKindList();
+        }
+
+        public string ToString(bool printAkaDora)
+        {
+            return string.Join("", tiles_.Select(x => x.ToString(printAkaDora)));
+        }
+
+        public override string ToString()
+        {
+            return string.Join("", tiles_.Select(x => x.ToString()));
         }
 
         public void Add(Tile item)
@@ -162,11 +175,6 @@ namespace Mahjong.Domain.Models.Tiles
         public override int GetHashCodeCore()
         {
             return new { tiles_ }.GetHashCode();
-        }
-
-        public override string ToString()
-        {
-            return string.Join("", tiles_.Select(x => x.ToString()));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Text;
 
 namespace Mahjong.Domain.Models.Tiles
 {
@@ -31,6 +32,11 @@ namespace Mahjong.Domain.Models.Tiles
         public TileKindList(IEnumerable<TileKind> kinds)
         {
             kinds_ = kinds.ToList();
+        }
+
+        public static TileKindList Parse(string man = "", string pin = "", string sou = "", string honor = "", bool hasAkaDora = false)
+        {
+            return TileList.Parse(man, pin, sou, honor, hasAkaDora).KindList;
         }
 
         public void Add(TileKind item)
@@ -81,6 +87,20 @@ namespace Mahjong.Domain.Models.Tiles
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public string ToString(bool printAkaDora)
+        {
+            var sb = new StringBuilder();
+            sb.AppendJoin("", kinds_.Select(x => ToString(printAkaDora)));
+            return sb.ToString();
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.AppendJoin("", kinds_.Select(x => x.ToString(false)));
+            return sb.ToString();
         }
 
         public override bool Equals(ValueObject<TileKindList>? other)
