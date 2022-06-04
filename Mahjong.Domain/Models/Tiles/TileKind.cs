@@ -191,5 +191,19 @@ namespace Mahjong.Domain.Models.Tiles
         {
             return !kind.IsYaochu() && !kind.IsNone();
         }
+
+        /// <summary>
+        /// 牌種別をスートを除いた数字で表したもの
+        /// 一萬 → 1 九萬 → 9
+        /// 東 → 1 中 → 7
+        /// </summary>
+        /// <param name="kind"></param>
+        /// <returns></returns>
+        public static int Simplify(this TileKind kind)
+        {
+            return kind == None
+                ? 0
+                : ((int)kind - 1) % 9 + 1;
+        }
     }
 }

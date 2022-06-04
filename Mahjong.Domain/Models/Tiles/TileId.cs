@@ -25,15 +25,5 @@ namespace Mahjong.Domain.Models.Tiles
         {
             return new { Value }.GetHashCode();
         }
-
-        public static implicit operator int(TileId id)
-        {
-            return id.Value;
-        }
-
-        public static implicit operator TileId(int value)
-        {
-            return new(value);
-        }
     }
 }

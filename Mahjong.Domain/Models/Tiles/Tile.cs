@@ -9,9 +9,12 @@ namespace Mahjong.Domain.Models.Tiles
         public static Tile FIVE_RED_SOU => new(88);
 
         public TileId Id { get; }
-        public TileKind Kind => 0 <= Id && Id <= 135
-            ? (TileKind)(Id / 4 + 1)
+        public TileKind Kind => Id.Value is >= 0 and <= 135
+            ? (TileKind)(Id.Value / 4 + 1)
             : None;
+
+        public Tile(int id)
+            : this(new TileId(id)) { }
 
         public Tile(TileId id)
         {
@@ -21,7 +24,7 @@ namespace Mahjong.Domain.Models.Tiles
         public static Tile Parse(string man = "", string pin = "", string sou = "",
             string honors = "", bool hasAkaDora = false)
         {
-            return TileCollection.Parse(man, pin, sou, honors, hasAkaDora)[0];
+            return TileList.Parse(man, pin, sou, honors, hasAkaDora)[0];
         }
 
         public override bool Equals(ValueObject<Tile>? other)
