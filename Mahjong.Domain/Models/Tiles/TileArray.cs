@@ -94,7 +94,7 @@ namespace Mahjong.Domain.Models.Tiles
             {
                 sb.Append(this[kind]);
             }
-            sb.Append("honors:");
+            sb.Append("honor:");
             for (var kind = East; kind <= Chun; kind++)
             {
                 sb.Append(this[kind]);

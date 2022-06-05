@@ -1,6 +1,5 @@
 using Mahjong.Domain.Models.Tiles;
 using static Mahjong.Domain.Models.Tiles.TileKind;
-using static Xunit.Assert;
 
 namespace Mahjong.Test
 {
@@ -9,7 +8,7 @@ namespace Mahjong.Test
         [Fact]
         public void FindIsolatedKindListTest()
         {
-            var hand = TileList.Parse(man: "25", pin: "15678", sou: "1369", honors: "124");
+            var hand = TileList.Parse(man: "25", pin: "15678", sou: "1369", honor: "124");
             var isoKinds = hand.FindIsolatedKindList();
             DoesNotContain(Man1, isoKinds);
             DoesNotContain(Man2, isoKinds);

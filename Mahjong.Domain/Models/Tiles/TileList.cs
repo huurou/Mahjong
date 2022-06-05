@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
 namespace Mahjong.Domain.Models.Tiles
 {
@@ -58,12 +59,59 @@ namespace Mahjong.Domain.Models.Tiles
             return false;
         }
 
-        public static TileList Parse(string man = "", string pin = "", string sou = "", string honors = "", bool hasAkaDora = false)
+        public static TileList Parse(string str, bool hasAkaDora)
+        {
+            var manSb = new StringBuilder();
+            var pinSb = new StringBuilder();
+            var souSb = new StringBuilder();
+            var honorSb = new StringBuilder();
+
+            var splitStart = 0;
+            for (var i = 0; i < str.Length; i++)
+            {
+                switch (str[i])
+                {
+                    case 'm':
+                        for (var j = splitStart; j < i; j++)
+                        {
+                            manSb.Append(str[j]);
+                        }
+                        break;
+
+                    case 'p':
+                        for (var j = splitStart; j < i; j++)
+                        {
+                            pinSb.Append(str[j]);
+                        }
+                        break;
+
+                    case 's':
+                        for (var j = splitStart; j < i; j++)
+                        {
+                            souSb.Append(str[j]);
+                        }
+                        break;
+
+                    case 'z':
+                        for (var j = splitStart; j < i; j++)
+                        {
+                            honorSb.Append(str[j]);
+                        }
+                        break;
+
+                    default: continue;
+                }
+                splitStart = i + 1;
+            }
+            return Parse(manSb.ToString(), pinSb.ToString(), souSb.ToString(), honorSb.ToString(), hasAkaDora);
+        }
+
+        public static TileList Parse(string man = "", string pin = "", string sou = "", string honor = "", bool hasAkaDora = false)
         {
             return new(SplitString(man, 0, Tile.FIVE_RED_MAN.Id.Value)
                 .Concat(SplitString(pin, 36, Tile.FIVE_RED_PIN.Id.Value))
                 .Concat(SplitString(sou, 72, Tile.FIVE_RED_SOU.Id.Value))
-                .Concat(SplitString(honors, 108, -1)));
+                .Concat(SplitString(honor, 108, -1)));
 
             IEnumerable<int> SplitString(string str, int offset, int red)
             {
@@ -80,7 +128,7 @@ namespace Mahjong.Domain.Models.Tiles
                     else
                     {
                         if (!int.TryParse(c.ToString(), out var i)) throw new ApplicationException($"数字とr以外の文字が含まれています。str:{str}");
-                        var id = i * 4 + offset - 1;
+                        var id = (i - 1) * 4 + offset;
                         if (id == red && hasAkaDora) id++;
                         if (data.Contains(id))
                         {

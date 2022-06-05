@@ -25,5 +25,10 @@ namespace Mahjong.Domain.Models.Tiles
         {
             return new { Value }.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
     }
 }

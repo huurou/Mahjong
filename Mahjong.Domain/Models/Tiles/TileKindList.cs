@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Text;
+using static Mahjong.Domain.Models.Tiles.TileKind;
 
 namespace Mahjong.Domain.Models.Tiles
 {
@@ -8,6 +9,13 @@ namespace Mahjong.Domain.Models.Tiles
     /// </summary>
     public class TileKindList : ValueObject<TileKindList>, IList<TileKind>
     {
+        /// <summary>
+        /// 全ての牌種別の牌を1個ずつ含んだリスト
+        /// </summary>
+        public static List<TileKind> AllKinds
+            => Enumerable.Range((int)Man1, (int)Chun)
+                         .Select(x => (TileKind)x).ToList();
+
         private readonly List<TileKind> kinds_ = new();
 
         public TileKind this[int index] { get => kinds_[index]; set => kinds_[index] = value; }
