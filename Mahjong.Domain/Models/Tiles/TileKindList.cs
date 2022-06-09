@@ -7,14 +7,16 @@ namespace Mahjong.Domain.Models.Tiles
     /// <summary>
     /// TileKindのリスト
     /// </summary>
-    public class TileKindList : ValueObject<TileKindList>, IList<TileKind>
+    public class TileKindList : ValueObject<TileKindList>, IList<TileKind>, IComparable<TileKindList>
     {
         /// <summary>
         /// 全ての牌種別の牌を1個ずつ含んだリスト
         /// </summary>
-        public static List<TileKind> AllKinds
-            => Enumerable.Range((int)Man1, (int)Chun)
-                         .Select(x => (TileKind)x).ToList();
+        public static TileKindList AllKinds => new(Enumerable.Range((int)Man1, (int)Chun));
+
+        public static TileKindList HonorList => new(AllKinds.Where(x => x.IsHonor()));
+
+        public static TileKindList YaochuList => new(AllKinds.Where(x => x.IsYaochu()));
 
         private readonly List<TileKind> kinds_ = new();
 
@@ -37,6 +39,9 @@ namespace Mahjong.Domain.Models.Tiles
         public TileKindList()
         { }
 
+        public TileKindList(IEnumerable<int> kinds)
+            : this(kinds.Select(x => (TileKind)x)) { }
+
         public TileKindList(IEnumerable<TileKind> kinds)
         {
             kinds_ = kinds.ToList();
@@ -44,12 +49,62 @@ namespace Mahjong.Domain.Models.Tiles
 
         public static TileKindList Parse(string man = "", string pin = "", string sou = "", string honor = "", bool hasAkaDora = false)
         {
-            return TileList.Parse(man, pin, sou, honor, hasAkaDora).KindList;
+            return TileList.Parse(man, pin, sou, honor).ToKindList();
+        }
+
+        public List<TileKindList> GetPermutations(int count)
+        {
+            var result = new List<TileKindList>();
+            Inner(this, count, new());
+            return result;
+
+            void Inner(TileKindList stock, int depth, TileKindList current)
+            {
+                if (depth == 0)
+                {
+                    result.Add(current);
+                    return;
+                }
+                for (var i = 0; i < stock.Count; i++)
+                {
+                    var stockCopy = stock.Clone();
+                    var currentCopy = new TileKindList(current) { stockCopy[i] };
+                    stockCopy.RemoveAt(i);
+                    Inner(stockCopy, depth - 1, currentCopy);
+                }
+            }
+        }
+
+        public static TileKindList Repeat(TileKind kind, int count)
+        {
+            return new(Enumerable.Repeat(kind, count));
+        }
+
+        public TileKindList Clone()
+        {
+            return new(kinds_);
+        }
+
+        public int CompareTo(TileKindList? other)
+        {
+            if (other is null) return 1;
+            var min = Math.Min(Count, other.Count);
+            for (var i = 0; i < min; i++)
+            {
+                if (this[i].CompareTo(other[i]) > 0) return 1;
+                if (this[i].CompareTo(other[i]) < 0) return -1;
+            }
+            return Count.CompareTo(other.Count);
         }
 
         public void Add(TileKind item)
         {
             kinds_.Add(item);
+        }
+
+        public void AddRange(IEnumerable<TileKind> collection)
+        {
+            kinds_.AddRange(collection);
         }
 
         public void Clear()
@@ -85,6 +140,11 @@ namespace Mahjong.Domain.Models.Tiles
         public void RemoveAt(int index)
         {
             kinds_.RemoveAt(index);
+        }
+
+        public void Foreach(Action<TileKind> action)
+        {
+            kinds_.ForEach(action);
         }
 
         public IEnumerator<TileKind> GetEnumerator()

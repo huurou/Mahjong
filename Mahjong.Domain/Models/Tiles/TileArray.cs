@@ -15,26 +15,22 @@ namespace Mahjong.Domain.Models.Tiles
 
         public int Length => tiles_.Length;
 
-        public TileList TileList
+        public TileList ToTileList()
         {
-            get
+            var list = new TileList();
+            for (var i = 0; i < Length; i++)
             {
-                var list = new TileList();
-                for (var i = 0; i < Length; i++)
+                for (var j = 0; j < tiles_[i]; j++)
                 {
-                    for (var j = 0; j < tiles_[i]; j++)
-                    {
-                        list.Add(new(i * 4 + j));
-                    }
+                    list.Add(new(i * 4 + j));
                 }
-                return list;
             }
+            return list;
         }
-        public TileKindList KindList => TileList.KindList;
 
-        public override bool Equals(ValueObject<TileArray>? other)
+        public TileKindList ToKindList()
         {
-            return other is TileArray array && this.SequenceEqual(array);
+            return ToTileList().ToKindList();
         }
 
         /// <summary>
@@ -63,7 +59,7 @@ namespace Mahjong.Domain.Models.Tiles
 
         public static TileArray Parse(string man = "", string pin = "", string sou = "", string honor = "", bool hasAkaDora = false)
         {
-            return TileList.Parse(man, pin, sou, honor, hasAkaDora).TileArray;
+            return TileList.Parse(man, pin, sou, honor).ToTileArray();
         }
 
         public TileArray Clone()
@@ -74,6 +70,11 @@ namespace Mahjong.Domain.Models.Tiles
                 array.tiles_[i] = tiles_[i];
             }
             return array;
+        }
+
+        public override bool Equals(ValueObject<TileArray>? other)
+        {
+            return other is TileArray array && this.SequenceEqual(array);
         }
 
         public override string ToString()

@@ -18,7 +18,7 @@ namespace Mahjong.Domain.Services
             bool chiitoitsu = true, bool kokushimusou = true)
         {
             if (hand.Count is not (13 or 14)) throw new ArgumentException("手牌の数が13or14個でないです。", nameof(hand));
-            var array = hand.TileArray;
+            var array = hand.ToTileArray();
             var shanten = 8;
             var meldsCount = 0;
             var tatsuCount = 0;
@@ -46,12 +46,11 @@ namespace Mahjong.Domain.Services
             else
             {
                 // 七対子 国士無双の判定
-                var allKinds = TileKindList.AllKinds;
-                var yaochu = allKinds.Where(x => x.IsYaochu());
-                //七対子のシャンテン数: 6-対子
-                if (chiitoitsu) shanten = Math.Min(shanten, 6 - allKinds.Count(x => array[x] == 2));
-                //国士無双のシャンテン数: 13-么九牌
-                if (kokushimusou) shanten = Math.Min(shanten, 13 - yaochu.Count(x => array[x] != 0) - (yaochu.Any(x => array[x] >= 2) ? 1 : 0));
+                // 七対子のシャンテン数: 6-対子
+                if (chiitoitsu) shanten = Math.Min(shanten, 6 - TileKindList.AllKinds.Count(x => array[x] == 2));
+                // 国士無双のシャンテン数: 13-么九牌
+                if (kokushimusou) shanten = Math.Min(shanten, 13 - TileKindList.YaochuList.Count(x => array[x] != 0) 
+                                                                 - (TileKindList.YaochuList.Any(x => array[x] >= 2) ? 1 : 0));
             }
             RemoveHonor(hand.Count);
             honorBits = 0;
@@ -294,7 +293,7 @@ namespace Mahjong.Domain.Services
             void DecreaseSet(TileKind k)
             {
                 array[k] += 3;
-                meldsCount --;
+                meldsCount--;
             }
 
             void IncreasePair(TileKind k)
@@ -306,14 +305,14 @@ namespace Mahjong.Domain.Services
             void DecreasePair(TileKind k)
             {
                 array[k] += 2;
-                pairsCount --;
+                pairsCount--;
             }
 
             void IncreaseSyuntsu(TileKind k)
             {
-                array[k] --;
-                array[k + 1] --;
-                array[k + 2] --;
+                array[k]--;
+                array[k + 1]--;
+                array[k + 2]--;
                 meldsCount++;
             }
 
@@ -322,13 +321,13 @@ namespace Mahjong.Domain.Services
                 array[k]++;
                 array[k + 1]++;
                 array[k + 2]++;
-                meldsCount --;
+                meldsCount--;
             }
 
             void IncreaseTatsuFirst(TileKind k)
             {
-                array[k] --;
-                array[k + 1] --;
+                array[k]--;
+                array[k + 1]--;
                 tatsuCount++;
             }
 
@@ -336,13 +335,13 @@ namespace Mahjong.Domain.Services
             {
                 array[k]++;
                 array[k + 1]++;
-                tatsuCount --;
+                tatsuCount--;
             }
 
             void IncreaseTatsuSecond(TileKind k)
             {
-                array[k] --;
-                array[k + 2] --;
+                array[k]--;
+                array[k + 2]--;
                 tatsuCount++;
             }
 
@@ -350,12 +349,12 @@ namespace Mahjong.Domain.Services
             {
                 array[k]++;
                 array[k + 2]++;
-                tatsuCount --;
+                tatsuCount--;
             }
 
             void IncreaseIsolatedTile(TileKind k)
             {
-                array[k] --;
+                array[k]--;
                 isolatedBits |= 1 << (int)k;
             }
 

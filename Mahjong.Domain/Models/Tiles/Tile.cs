@@ -21,10 +21,9 @@ namespace Mahjong.Domain.Models.Tiles
             Id = id;
         }
 
-        public static Tile Parse(string man = "", string pin = "", string sou = "",
-            string honor = "", bool hasAkaDora = false)
+        public static Tile Parse(string man = "", string pin = "", string sou = "", string honor = "")
         {
-            return TileList.Parse(man, pin, sou, honor, hasAkaDora)[0];
+            return TileList.Parse(man, pin, sou, honor)[0];
         }
 
         public override bool Equals(ValueObject<Tile>? other)

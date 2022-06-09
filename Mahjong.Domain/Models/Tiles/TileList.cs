@@ -15,20 +15,6 @@ namespace Mahjong.Domain.Models.Tiles
 
         public bool IsReadOnly => false;
 
-        public TileArray TileArray
-        {
-            get
-            {
-                var array = new TileArray();
-                foreach (var tile in tiles_)
-                {
-                    array[tile.Kind]++;
-                }
-                return array;
-            }
-        }
-        public TileKindList KindList => new(tiles_.Select(x => x.Kind));
-
         public Tile this[int index] { get => tiles_[index]; set => tiles_[index] = value; }
 
         public TileList()
@@ -46,6 +32,21 @@ namespace Mahjong.Domain.Models.Tiles
             tiles_ = new(tiles);
         }
 
+        public TileArray ToTileArray()
+        {
+            var array = new TileArray();
+            foreach (var tile in tiles_)
+            {
+                array[tile.Kind]++;
+            }
+            return array;
+        }
+
+        public TileKindList ToKindList()
+        {
+            return new(tiles_.Select(x => x.Kind));
+        }
+
         public bool TryFind(TileKind kind, [NotNullWhen(true)] out Tile? tile)
         {
             tile = null;
@@ -59,7 +60,7 @@ namespace Mahjong.Domain.Models.Tiles
             return false;
         }
 
-        public static TileList Parse(string str, bool hasAkaDora)
+        public static TileList Parse(string str)
         {
             var manSb = new StringBuilder();
             var pinSb = new StringBuilder();
@@ -103,10 +104,10 @@ namespace Mahjong.Domain.Models.Tiles
                 }
                 splitStart = i + 1;
             }
-            return Parse(manSb.ToString(), pinSb.ToString(), souSb.ToString(), honorSb.ToString(), hasAkaDora);
+            return Parse(manSb.ToString(), pinSb.ToString(), souSb.ToString(), honorSb.ToString());
         }
 
-        public static TileList Parse(string man = "", string pin = "", string sou = "", string honor = "", bool hasAkaDora = false)
+        public static TileList Parse(string man = "", string pin = "", string sou = "", string honor = "")
         {
             return new(SplitString(man, 0, Tile.FIVE_RED_MAN.Id.Value)
                 .Concat(SplitString(pin, 36, Tile.FIVE_RED_PIN.Id.Value))
@@ -120,7 +121,7 @@ namespace Mahjong.Domain.Models.Tiles
                 var temp = new List<int>();
                 foreach (var c in str)
                 {
-                    if (c is 'r' or '0' && hasAkaDora)
+                    if (c is 'r' or '0')
                     {
                         data.Add(red);
                         temp.Add(red);
@@ -129,7 +130,6 @@ namespace Mahjong.Domain.Models.Tiles
                     {
                         if (!int.TryParse(c.ToString(), out var i)) throw new ApplicationException($"数字とr以外の文字が含まれています。str:{str}");
                         var id = (i - 1) * 4 + offset;
-                        if (id == red && hasAkaDora) id++;
                         if (data.Contains(id))
                         {
                             data.Add(id + temp.Count(x => x == id));
@@ -152,7 +152,7 @@ namespace Mahjong.Domain.Models.Tiles
         /// <returns>自身及び隣り合った牌が存在しないTileKindのリスト</returns>
         public TileKindList FindIsolatedKindList()
         {
-            return TileArray.FindIsolatedKindList();
+            return ToTileArray().FindIsolatedKindList();
         }
 
         public string ToString(bool printAkaDora)
@@ -163,6 +163,27 @@ namespace Mahjong.Domain.Models.Tiles
         public override string ToString()
         {
             return string.Join("", tiles_.Select(x => x.ToString()));
+        }
+
+        public string ToOneLineString(bool printAkaDora = false)
+        {
+            var tiles = this.OrderBy(x => x.Id.Value);
+
+            var man = tiles.Where(x => x.Kind.IsMan());
+            var pin = tiles.Where(x => x.Kind.IsPin());
+            var sou = tiles.Where(x => x.Kind.IsSou());
+            var honor = tiles.Where(x => x.Kind.IsHonor());
+
+            var manStr = Words(man, Tile.FIVE_RED_MAN.Id.Value, "m");
+            var pinStr = Words(pin, Tile.FIVE_RED_PIN.Id.Value, "p");
+            var souStr = Words(sou, Tile.FIVE_RED_SOU.Id.Value, "s");
+            var honorStr = Words(honor, -1, "z");
+
+            return manStr + pinStr + souStr + honorStr;
+
+            string Words(IEnumerable<Tile> tiles, int red, string suffix) => tiles.Any()
+                    ? $"{string.Join("", tiles.Select(x => x.Id.Value == red && printAkaDora ? 0 : x.Kind.Simplify()))}{suffix}"
+                    : "";
         }
 
         public void Add(Tile item)
