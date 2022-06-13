@@ -9,7 +9,7 @@ public class FuDetail : ValueObject<FuDetail>
         : this(reason, reason switch
         {
             FuReason.Base => 20,
-            FuReason.HandWithoutHu => 0,
+            FuReason.HandWithoutHu => 2,
             FuReason.Tsumo => 2,
             FuReason.MenzenRon => 10,
             FuReason.Penchan => 2,
