@@ -1,9 +1,11 @@
-﻿using Mahjong.Domain.Models.Melds;
+﻿using Mahjong.Domain.Models.HandCalculatings;
+using Mahjong.Domain.Models.Melds;
 using Mahjong.Domain.Models.Tiles;
 using static Mahjong.Domain.Models.HandCalculatings.FuReason;
 using static Mahjong.Domain.Models.Melds.MeldType;
+using static Mahjong.Domain.Models.Tiles.TileKind;
 
-namespace Mahjong.Domain.Models.HandCalculatings;
+namespace Mahjong.Domain.Services;
 
 public static class FuCalculateService
 {
@@ -12,13 +14,11 @@ public static class FuCalculateService
         TileKind winTile,
         TileKindList winGroup,
         HandConfig config,
-        IEnumerable<TileKind>? valuedTiles = null,
         IEnumerable<Meld>? melds = null)
     {
         // 七対子
         if (devidedHand.Count() == 7) return new(new FuDetail(Base, 25));
 
-        valuedTiles ??= new List<TileKind>();
         melds ??= new List<Meld>();
         var fuReasons = new List<FuReason>();
         var pair = devidedHand.Where(x => x.IsPair).ElementAt(0);
@@ -29,7 +29,8 @@ public static class FuCalculateService
         // 純手牌に副露と同じ並びが存在したとき、純手牌側は取り除いてしまわないようRemoveで削除する
         foreach (var meld in melds)
         {
-            closedChiSets.Remove(meld.Kinds);
+            var kinds = new TileKindList(meld.Kinds.Take(3));
+            closedChiSets.Remove(kinds);
         }
         if (closedChiSets.Contains(winGroup))
         {
@@ -44,6 +45,14 @@ public static class FuCalculateService
             if (winGroup.IndexOf(winTile) == 1) fuReasons.Add(Kanchan);
         }
 
+        var valuedTiles = new TileKindList(new[]
+        {
+            config.RoundWind,
+            config.PlayerWind,
+            Haku,
+            Hatsu,
+            Chun
+        });
         // 役牌雀頭 ダブ東 ダブ南は2*2の4符になる
         for (var i = 0; i < valuedTiles.Count(x => x == pair[0]); i++)
         {
@@ -55,10 +64,10 @@ public static class FuCalculateService
 
         foreach (var ponSet in ponSets)
         {
-            var openPon = melds.FirstOrDefault(x => x.Kinds == ponSet);
+            var meldedPon = melds.FirstOrDefault(x => new TileKindList(x.Kinds.Take(3)) == ponSet);
             var isOpen = !config.IsTsumo && ponSet == winGroup ||
-                         (openPon?.Opened ?? false);
-            var isKan = openPon?.Type is Kan or Shouminkan;
+                         (meldedPon?.IsOpen ?? false);
+            var isKan = meldedPon?.Type is Ankan or Shouminkan;
             var isYaochu = ponSet.Contains(x => x.IsYaochu());
             fuReasons.Add(
                 isYaochu
@@ -69,21 +78,19 @@ public static class FuCalculateService
                         ? isOpen ? OpenKan : ClosedKan
                         : isOpen ? OpenPon : ClosedPon);
         }
-        if (config.IsTsumo && (fuReasons.Any() || !config.Options.FuForPinfuTsumo))
+        if (config.IsTsumo && (fuReasons.Any() || !config.Rurles.PinfuTsumo))
         {
             fuReasons.Add(Tsumo);
         }
-        if (melds.Any(x => x.Opened) &&
-            !fuReasons.Any() &&
-            config.Options.FuForOpenPinfu)
+        if (melds.Any(x => x.IsOpen) && !fuReasons.Any() && config.Rurles.OpenPinfu)
         {
             fuReasons.Add(HandWithoutHu);
         }
-        if (!melds.Any(x => x.Opened) && !config.IsTsumo)
+        if (!melds.Any(x => x.IsOpen) && !config.IsTsumo)
         {
             fuReasons.Add(MenzenRon);
         }
         fuReasons.Add(Base);
-        return new(fuReasons);
+        return new(fuReasons.OrderBy(x => x));
     }
 }

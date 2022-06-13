@@ -14,31 +14,50 @@ public enum Kazoe
 /// </summary>
 public class OptionalRules : ValueObject<OptionalRules>
 {
-    //喰いタン
+    /// <summary>
+    /// 喰いタンあり/なし
+    /// </summary>
     public bool HasOpenTanyao { get; init; }
 
-    //赤ドラ(1枚ずつ)
+    /// <summary>
+    /// 赤ドラ(1枚ずつ)あり/なし
+    /// </summary>
     public bool HasAkaDora { get; init; }
 
-    //ダブル役満
+    /// <summary>
+    /// ダブル役満あり/なし
+    /// </summary>
     public bool HasDoubleYakuman { get; }
 
-    //数え役満
+    /// <summary>
+    /// 数え役満
+    /// </summary>
     public Kazoe KazoeLimit { get; }
 
-    //切り上げ満貫
-    public bool Kiriage { get; }
+    /// <summary>
+    /// 切り上げ満貫あり/なし
+    /// </summary>
+    public bool KiriageMangan { get; }
 
-    //食い平和2符追加
-    public bool FuForOpenPinfu { get; }
+    /// <summary>
+    /// 食い平和2符追加あり/なし
+    /// </summary>
+    public bool OpenPinfu { get; }
+    /// <summary>
+    /// ピンヅモあり/なし
+    /// ピンヅモあり：平和 ツモ 20符 2翻
+    /// ピンヅモなし：ツモのみ 30符 1翻
+    /// </summary>
+    public bool PinfuTsumo { get; }
 
-    //ピンヅモ
-    public bool FuForPinfuTsumo { get; }
-
-    //人和役満
+    /// <summary>
+    /// 人和役満扱いかどうか
+    /// </summary>
     public bool RenhouAsYakuman { get; }
 
-    //大車輪
+    /// <summary>
+    /// 大車輪あり/なし
+    /// </summary>
     public bool HasDaisharin { get; }
 
     public OptionalRules(
@@ -46,9 +65,9 @@ public class OptionalRules : ValueObject<OptionalRules>
         bool hasAkaDora = false,
         bool hasDoubleYakuman = true,
         Kazoe kazoeLimit = Kazoe.Limited,
-        bool kiriage = false,
-        bool fuForOpenPinfu = true,
-        bool fuForPinfuTsumo = false,
+        bool kiriageMangan = false,
+        bool openPinfu = true,
+        bool pinfuTsumo = true,
         bool renhouAsYakuman = false,
         bool hasDaisharin = false)
     {
@@ -56,21 +75,41 @@ public class OptionalRules : ValueObject<OptionalRules>
         HasAkaDora = hasAkaDora;
         HasDoubleYakuman = hasDoubleYakuman;
         KazoeLimit = kazoeLimit;
-        Kiriage = kiriage;
-        FuForOpenPinfu = fuForOpenPinfu;
-        FuForPinfuTsumo = fuForPinfuTsumo;
+        KiriageMangan = kiriageMangan;
+        OpenPinfu = openPinfu;
+        PinfuTsumo = pinfuTsumo;
         RenhouAsYakuman = renhouAsYakuman;
         HasDaisharin = hasDaisharin;
     }
 
     public override bool Equals(ValueObject<OptionalRules>? other)
     {
-        throw new NotImplementedException();
+        return other is OptionalRules rules &&
+            HasOpenTanyao == rules.HasOpenTanyao &&
+            HasAkaDora == rules.HasAkaDora &&
+            HasDoubleYakuman == rules.HasDoubleYakuman &&
+            KazoeLimit == rules.KazoeLimit &&
+            KiriageMangan == rules.KiriageMangan &&
+            OpenPinfu == rules.OpenPinfu &&
+            PinfuTsumo == rules.PinfuTsumo &&
+            RenhouAsYakuman == rules.RenhouAsYakuman &&
+            HasDaisharin == rules.HasDaisharin;
     }
 
     public override int GetHashCodeCore()
     {
-        throw new NotImplementedException();
+        return new
+        {
+            HasOpenTanyao,
+            HasAkaDora,
+            HasDoubleYakuman,
+            KazoeLimit,
+            KiriageMangan,
+            OpenPinfu,
+            PinfuTsumo,
+            RenhouAsYakuman,
+            HasDaisharin
+        }.GetHashCode();
     }
 }
 
@@ -79,57 +118,75 @@ public class OptionalRules : ValueObject<OptionalRules>
 /// </summary>
 public class HandConfig : ValueObject<HandConfig>
 {
-    public OptionalRules Options { get; }
-
-    // 自風
-    public TileKind PlayerWind { get; }
-
-    // 場風
+    /// <summary>
+    /// ルール
+    /// </summary>
+    public OptionalRules Rurles { get; }
+    /// <summary>
+    /// 場風
+    /// </summary>
     public TileKind RoundWind { get; }
-
-    // ツモ上がり/出上がり
+    /// <summary>
+    /// 自風
+    /// </summary>
+    public TileKind PlayerWind { get; }
+    /// <summary>
+    /// ツモ上がり/出上がり
+    /// </summary>
     public bool IsTsumo { get; }
-
-    // リーチ
+    /// <summary>
+    /// リーチ
+    /// </summary>
     public bool IsRiichi { get; }
-
-    // 一発
+    /// <summary>
+    /// 一発
+    /// </summary>
     public bool IsIppatsu { get; }
-
-    // 嶺上開花
+    /// <summary>
+    /// 嶺上開花
+    /// </summary>
     public bool IsRinshan { get; }
-
-    // 槍槓
+    /// <summary>
+    /// 槍槓
+    /// </summary>
     public bool IsChankan { get; }
-
-    // 海底撈月
+    /// <summary>
+    /// 海底撈月
+    /// </summary>
     public bool IsHaitei { get; }
-
-    // 河底撈魚
+    /// <summary>
+    /// 河底撈魚
+    /// </summary>
     public bool IsHoutei { get; }
-
-    // ダブル立直
+    /// <summary>
+    /// ダブル立直
+    /// </summary>
     public bool IsDaburuRiichi { get; }
-
-    // 流し満貫
+    /// <summary>
+    /// 流し満貫
+    /// </summary>
     public bool IsNagashiMangan { get; }
-
-    // 天和
+    /// <summary>
+    /// 天和
+    /// </summary>
     public bool IsTenhou { get; }
-
-    // 地和
+    /// <summary>
+    /// 地和
+    /// </summary>
     public bool IsChiihou { get; }
-
-    // 人和
+    /// <summary>
+    /// 人和
+    /// </summary>
     public bool IsRenhou { get; }
-
-    //親
+    /// <summary>
+    /// 親
+    /// </summary>
     public bool IsDealer => PlayerWind == TileKind.East;
 
     public HandConfig(
-        OptionalRules options,
-        TileKind playerWind,
+        OptionalRules rules,
         TileKind roundWind,
+        TileKind playerWind,
         bool isTsumo,
         bool isRiichi = false,
         bool isIppatsu = false,
@@ -143,7 +200,9 @@ public class HandConfig : ValueObject<HandConfig>
         bool isChiihou = false,
         bool isRenhou = false)
     {
-        Options = options;
+        Rurles = rules;
+        RoundWind = roundWind;
+        PlayerWind = playerWind;
         IsTsumo = isTsumo;
         IsRiichi = isRiichi;
         IsIppatsu = isIppatsu;
@@ -156,17 +215,47 @@ public class HandConfig : ValueObject<HandConfig>
         IsTenhou = isTenhou;
         IsChiihou = isChiihou;
         IsRenhou = isRenhou;
-        PlayerWind = playerWind;
-        RoundWind = roundWind;
     }
 
     public override bool Equals(ValueObject<HandConfig>? other)
     {
-        throw new NotImplementedException();
+        return other is HandConfig config &&
+            Rurles == config.Rurles &&
+            RoundWind == config.RoundWind &&
+            PlayerWind == config.PlayerWind &&
+            IsTsumo == config.IsTsumo &&
+            IsRiichi == config.IsRiichi &&
+            IsIppatsu == config.IsIppatsu &&
+            IsRinshan == config.IsRinshan &&
+            IsChankan == config.IsChankan &&
+            IsHaitei == config.IsHaitei &&
+            IsHoutei == config.IsHoutei &&
+            IsDaburuRiichi == config.IsDaburuRiichi &&
+            IsNagashiMangan == config.IsNagashiMangan &&
+            IsTenhou == config.IsTenhou &&
+            IsChiihou == config.IsChiihou &&
+            IsRenhou == config.IsRenhou;
     }
 
     public override int GetHashCodeCore()
     {
-        throw new NotImplementedException();
+        return new
+        {
+            Rurles,
+            RoundWind,
+            PlayerWind,
+            IsTsumo,
+            IsRiichi,
+            IsIppatsu,
+            IsRinshan,
+            IsChankan,
+            IsHaitei,
+            IsHoutei,
+            IsDaburuRiichi,
+            IsNagashiMangan,
+            IsTenhou,
+            IsChiihou,
+            IsRenhou
+        }.GetHashCode();
     }
 }

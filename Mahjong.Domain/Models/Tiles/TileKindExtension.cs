@@ -44,6 +44,11 @@ public static class TileKindExtension
         return !kind.IsYaochu() && !kind.IsNone();
     }
 
+    public static bool IsDragon(this TileKind kind)
+    {
+        return kind is Haku or Hatsu or Chun;
+    }
+
     /// <summary>
     /// 牌種別をスートを除いた数字で表したもの
     /// 一萬 → 1 九萬 → 9

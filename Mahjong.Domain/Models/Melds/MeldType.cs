@@ -13,13 +13,17 @@ public enum MeldType
     /// </summary>
     Pon,
     /// <summary>
-    /// カン
+    /// 暗槓
     /// </summary>
-    Kan,
+    Ankan,
     /// <summary>
     /// 小明槓
     /// </summary>
     Shouminkan,
+    /// <summary>
+    /// 大明槓
+    /// </summary>
+    Daiminkan,
     /// <summary>
     /// 抜き
     /// </summary>

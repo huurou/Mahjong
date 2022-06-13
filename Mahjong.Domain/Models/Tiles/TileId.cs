@@ -1,6 +1,4 @@
-﻿using static Mahjong.Domain.Models.Tiles.TileKind;
-
-namespace Mahjong.Domain.Models.Tiles;
+﻿namespace Mahjong.Domain.Models.Tiles;
 
 /// <summary>
 /// タイルID

@@ -49,7 +49,7 @@ public static class ShantenService
             // 七対子のシャンテン数: 6-対子
             if (chiitoitsu) shanten = Math.Min(shanten, 6 - TileKindList.AllKinds.Count(x => array[x] == 2));
             // 国士無双のシャンテン数: 13-么九牌
-            if (kokushimusou) shanten = Math.Min(shanten, 13 - TileKindList.YaochuList.Count(x => array[x] != 0) 
+            if (kokushimusou) shanten = Math.Min(shanten, 13 - TileKindList.YaochuList.Count(x => array[x] != 0)
                                                              - (TileKindList.YaochuList.Any(x => array[x] >= 2) ? 1 : 0));
         }
         RemoveHonor(hand.Count);
