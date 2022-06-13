@@ -63,16 +63,9 @@ public static class HandDivideService
             }
         }
         hands = unique_hands;
-        if (pairs.Count == 7)
-        {
-            hands.Add(pairs.Select(x => TileKindList.Repeat(x, 2)).ToList());
-            var h = new List<TileKindList>();
-            foreach (var index in pairs)
-            {
-                h.Add(new TileKindList(Enumerable.Repeat(index, 2)));
-            }
-            hands.Add(h);
-        }
+        // 七対子判定
+        if (pairs.Count == 7) hands.Add(pairs.Select(x => TileKindList.Repeat(x, 2)).ToList());
+
         hands.Sort((x, y) =>
         {
             for (var i = 0; i < Math.Min(x.Count, y.Count); i++)
