@@ -1,6 +1,6 @@
 ﻿namespace Mahjong.Domain.Models.Melds;
 
-public enum MeldType
+internal enum MeldType
 {
     None,
 

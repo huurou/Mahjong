@@ -7,7 +7,7 @@ using static Mahjong.Domain.Models.Tiles.TileKind;
 
 namespace Mahjong.Domain.Services;
 
-public static class FuCalculateService
+internal static class FuCalculateService
 {
     public static FuResult CalcFu(
         IEnumerable<TileKindList> devidedHand,

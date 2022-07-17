@@ -3,7 +3,7 @@
 /// <summary>
 /// 牌種別
 /// </summary>
-public enum TileKind
+internal enum TileKind
 {
     None,
 

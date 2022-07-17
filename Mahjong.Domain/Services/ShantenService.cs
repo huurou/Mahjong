@@ -3,7 +3,7 @@ using static Mahjong.Domain.Models.Tiles.TileKind;
 
 namespace Mahjong.Domain.Services;
 
-public static class ShantenService
+internal static class ShantenService
 {
     /// <summary>
     /// シャンテン数を計算する

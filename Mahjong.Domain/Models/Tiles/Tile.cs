@@ -2,7 +2,7 @@
 
 namespace Mahjong.Domain.Models.Tiles;
 
-public class Tile : ValueObject<Tile>
+internal class Tile : ValueObject<Tile>
 {
     public static Tile FIVE_RED_MAN => new(16);
     public static Tile FIVE_RED_PIN => new(52);

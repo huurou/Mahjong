@@ -7,14 +7,23 @@ namespace Mahjong.Domain.Models.Tiles;
 /// <summary>
 /// TileKindのリスト
 /// </summary>
-public class TileKindList : ValueObject<TileKindList>, IList<TileKind>, IComparable<TileKindList>
+internal class TileKindList : ValueObject<TileKindList>, IList<TileKind>, IComparable<TileKindList>
 {
     /// <summary>
-    /// 全ての牌種別の牌を1個ずつ含んだリスト
+    /// 全ての牌一覧
     /// </summary>
     public static TileKindList AllKinds => new(Enumerable.Range((int)Man1, (int)Chun));
+    /// <summary>
+    /// 字牌一覧
+    /// </summary>
     public static TileKindList HonorList => new(AllKinds.Where(x => x.IsHonor()));
+    /// <summary>
+    /// 19牌一覧
+    /// </summary>
     public static TileKindList TerminalList => new(AllKinds.Where(x => x.IsTerminal()));
+    /// <summary>
+    /// 么九牌一覧
+    /// </summary>
     public static TileKindList YaochuList => new(AllKinds.Where(x => x.IsYaochu()));
 
     private readonly List<TileKind> kinds_ = new();
@@ -92,8 +101,8 @@ public class TileKindList : ValueObject<TileKindList>, IList<TileKind>, ICompara
     public int CompareTo(TileKindList? other)
     {
         if (other is null) return 1;
-        var min = Math.Min(Count, other.Count);
-        for (var i = 0; i < min; i++)
+        var minCount = Math.Min(Count, other.Count);
+        for (var i = 0; i < minCount; i++)
         {
             if (this[i].CompareTo(other[i]) > 0) return 1;
             if (this[i].CompareTo(other[i]) < 0) return -1;

@@ -1,6 +1,6 @@
 ﻿namespace Mahjong.Domain.Models.HandCalculatings;
 
-public class FuDetail : ValueObject<FuDetail>
+internal class FuDetail : ValueObject<FuDetail>
 {
     public FuReason Reason { get; }
     public int Fu { get; }

@@ -3,7 +3,7 @@ using static Mahjong.Domain.Models.Tiles.TileKind;
 
 namespace Mahjong.Domain.Services;
 
-public class AgariService
+internal class AgariService
 {
     /// <summary>
     /// あがり形かどうか判定する

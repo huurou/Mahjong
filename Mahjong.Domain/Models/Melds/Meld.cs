@@ -3,7 +3,7 @@ using static Mahjong.Domain.Models.Melds.MeldType;
 
 namespace Mahjong.Domain.Models.Melds;
 
-public class Meld : ValueObject<Meld>
+internal class Meld : ValueObject<Meld>
 {
     /// <summary>
     /// 鳴きの種類

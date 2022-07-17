@@ -1,6 +1,6 @@
 ﻿namespace Mahjong.Domain.Models.HandCalculatings;
 
-public class FuResult : ValueObject<FuResult>
+internal class FuResult : ValueObject<FuResult>
 {
     public IEnumerable<FuDetail> Details { get; } = new List<FuDetail>();
     public int Total { get; }

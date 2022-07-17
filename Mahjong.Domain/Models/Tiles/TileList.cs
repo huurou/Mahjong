@@ -7,7 +7,7 @@ namespace Mahjong.Domain.Models.Tiles;
 /// <summary>
 /// Tileのリスト
 /// </summary>
-public class TileList : ValueObject<TileList>, IList<Tile>
+internal class TileList : ValueObject<TileList>, IList<Tile>
 {
     private readonly List<Tile> tiles_ = new();
 

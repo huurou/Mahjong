@@ -7,7 +7,7 @@ namespace Mahjong.Domain.Models.Tiles;
 /// <summary>
 /// TileKind 0 ~33をインデックスとして, それぞれの牌の個数を値として持つ配列
 /// </summary>
-public class TileArray : ValueObject<TileArray>, IEnumerable<int>
+internal class TileArray : ValueObject<TileArray>, IEnumerable<int>
 {
     private readonly int[] tiles_ = new int[34];
 

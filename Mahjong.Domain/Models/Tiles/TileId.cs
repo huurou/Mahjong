@@ -4,7 +4,7 @@
 /// タイルID
 /// 全ての牌を区別するID 0~135
 /// </summary>
-public class TileId : ValueObject<TileId>
+internal class TileId : ValueObject<TileId>
 {
     public int Value { get; }
 

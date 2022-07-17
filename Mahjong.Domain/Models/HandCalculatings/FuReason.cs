@@ -1,6 +1,6 @@
 ﻿namespace Mahjong.Domain.Models.HandCalculatings;
 
-public enum FuReason
+internal enum FuReason
 {
     None,
     /// <summary>

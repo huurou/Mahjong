@@ -2,7 +2,7 @@
 
 namespace Mahjong.Domain.Models.Tiles;
 
-public static class TileKindExtension
+internal static class TileKindExtension
 {
     public static bool IsNone(this TileKind kind)
     {

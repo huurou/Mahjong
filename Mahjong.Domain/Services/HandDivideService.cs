@@ -4,7 +4,7 @@ using static Mahjong.Domain.Models.Tiles.TileKind;
 
 namespace Mahjong.Domain.Services;
 
-public static class HandDivideService
+internal static class HandDivideService
 {
     public static List<List<TileKindList>> DivideHand(TileList hand, IEnumerable<Meld>? melds = null)
     {
