@@ -2,7 +2,6 @@
 using static Mahjong.Domain.Models.Tiles.TileKind;
 
 namespace Mahjong.Domain.Services;
-
 internal class AgariService
 {
     /// <summary>

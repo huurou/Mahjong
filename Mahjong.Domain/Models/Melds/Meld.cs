@@ -16,7 +16,7 @@ internal class Meld : ValueObject<Meld>
     /// <summary>
     /// 副露牌(牌種別)
     /// </summary>
-    public TileKindList Kinds => Tiles.ToKindList();
+    public TileKindList KindList => Tiles.ToKindList();
     /// <summary>
     /// 鳴かれた牌
     /// </summary>

@@ -2,22 +2,24 @@
 
 namespace Mahjong.Domain.Models.Tiles;
 
+/// <summary>
+/// 牌 0~135のIdを持つ
+/// </summary>
 internal class Tile : ValueObject<Tile>
 {
     public static Tile FIVE_RED_MAN => new(16);
     public static Tile FIVE_RED_PIN => new(52);
     public static Tile FIVE_RED_SOU => new(88);
 
-    public TileId Id { get; }
-    public TileKind Kind => Id.Value is >= 0 and <= 135
-        ? (TileKind)(Id.Value / 4 + 1)
+    public int Id { get; }
+
+    public TileKind Kind => Id is >= 0 and <= 135
+        ? (TileKind)(Id / 4 + 1)
         : None;
 
     public Tile(int id)
-        : this(new TileId(id)) { }
-
-    public Tile(TileId id)
     {
+        if (id is < 0 or > 135) throw new ArgumentException($"タイルIDには0から135までを指定してください given:{id}", nameof(id));
         Id = id;
     }
 

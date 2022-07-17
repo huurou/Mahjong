@@ -24,9 +24,6 @@ internal class TileList : ValueObject<TileList>, IList<Tile>
     public TileList(IEnumerable<int> tileIds)
         : this(tileIds.Select(x => new Tile(x))) { }
 
-    public TileList(IEnumerable<TileId> tileIds)
-        : this(tileIds.Select(x => new Tile(x))) { }
-
     public TileList(IEnumerable<Tile> tiles)
     {
         tiles_ = new(tiles);
@@ -51,7 +48,7 @@ internal class TileList : ValueObject<TileList>, IList<Tile>
     {
         tile = null;
         if (kind.IsNone()) return false;
-        var possibleIds = Enumerable.Range(0, 4).Select(x => new TileId((int)kind * 4 + x));
+        var possibleIds = Enumerable.Range(0, 4).Select(x => (int)kind * 4 + x);
         foreach (var id in possibleIds)
         {
             if ((tile = tiles_.FirstOrDefault(x => x.Id == id)) is null) continue;
@@ -109,9 +106,9 @@ internal class TileList : ValueObject<TileList>, IList<Tile>
 
     public static TileList Parse(string man = "", string pin = "", string sou = "", string honor = "")
     {
-        return new(SplitString(man, 0, Tile.FIVE_RED_MAN.Id.Value)
-            .Concat(SplitString(pin, 36, Tile.FIVE_RED_PIN.Id.Value))
-            .Concat(SplitString(sou, 72, Tile.FIVE_RED_SOU.Id.Value))
+        return new(SplitString(man, 0, Tile.FIVE_RED_MAN.Id)
+            .Concat(SplitString(pin, 36, Tile.FIVE_RED_PIN.Id))
+            .Concat(SplitString(sou, 72, Tile.FIVE_RED_SOU.Id))
             .Concat(SplitString(honor, 108, -1)));
 
         IEnumerable<int> SplitString(string str, int offset, int red)
@@ -167,22 +164,22 @@ internal class TileList : ValueObject<TileList>, IList<Tile>
 
     public string ToOneLineString(bool printAkaDora = false)
     {
-        var tiles = this.OrderBy(x => x.Id.Value);
+        var tiles = this.OrderBy(x => x.Id);
 
         var man = tiles.Where(x => x.Kind.IsMan());
         var pin = tiles.Where(x => x.Kind.IsPin());
         var sou = tiles.Where(x => x.Kind.IsSou());
         var honor = tiles.Where(x => x.Kind.IsHonor());
 
-        var manStr = Words(man, Tile.FIVE_RED_MAN.Id.Value, "m");
-        var pinStr = Words(pin, Tile.FIVE_RED_PIN.Id.Value, "p");
-        var souStr = Words(sou, Tile.FIVE_RED_SOU.Id.Value, "s");
+        var manStr = Words(man, Tile.FIVE_RED_MAN.Id, "m");
+        var pinStr = Words(pin, Tile.FIVE_RED_PIN.Id, "p");
+        var souStr = Words(sou, Tile.FIVE_RED_SOU.Id, "s");
         var honorStr = Words(honor, -1, "z");
 
         return manStr + pinStr + souStr + honorStr;
 
         string Words(IEnumerable<Tile> tiles, int red, string suffix) => tiles.Any()
-                ? $"{string.Join("", tiles.Select(x => x.Id.Value == red && printAkaDora ? 0 : x.Kind.Simplify()))}{suffix}"
+                ? $"{string.Join("", tiles.Select(x => x.Id == red && printAkaDora ? 0 : x.Kind.Simplify()))}{suffix}"
                 : "";
     }
 

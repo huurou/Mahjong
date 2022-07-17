@@ -29,7 +29,7 @@ internal static class FuCalculateService
         // 純手牌に副露と同じ並びが存在したとき、純手牌側は取り除いてしまわないようRemoveで削除する
         foreach (var meld in melds)
         {
-            var kinds = new TileKindList(meld.Kinds.Take(3));
+            var kinds = new TileKindList(meld.KindList.Take(3));
             closedChiSets.Remove(kinds);
         }
         if (closedChiSets.Contains(winGroup))
@@ -64,7 +64,7 @@ internal static class FuCalculateService
 
         foreach (var ponSet in ponSets)
         {
-            var meldedPon = melds.FirstOrDefault(x => new TileKindList(x.Kinds.Take(3)) == ponSet);
+            var meldedPon = melds.FirstOrDefault(x => new TileKindList(x.KindList.Take(3)) == ponSet);
             var isOpen = !config.IsTsumo && ponSet == winGroup ||
                          (meldedPon?.IsOpen ?? false);
             var isKan = meldedPon?.Type is Ankan or Shouminkan;
