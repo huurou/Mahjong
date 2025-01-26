@@ -1,0 +1,38 @@
+﻿<Window x:Class="Mahjong.Presentation.Dialogs.AboutDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ap="clr-namespace:Mahjong.Presentation.AttachedProperties"
+        xmlns:spacingstackpanels="clr-namespace:Mahjong.Presentation.Controls.SpacingStackPanels"
+        xmlns:dialogs="clr-namespace:Mahjong.Presentation.Dialogs"
+        d:DataContext="{d:DesignInstance Type=dialogs:AboutDialogViewModel}"
+        mc:Ignorable="d"
+        ap:AttachedDialogResult.DialogResult="{Binding DialogResult}"
+        Title="{Binding Title}" Width="300" SizeToContent="Height"
+        ResizeMode="NoResize">
+    <Window.Resources>
+        <ResourceDictionary Source="../ResourceDictionary.xaml" />
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding OkCommand}" />
+        <KeyBinding Key="Enter" Command="{Binding OkCommand}" />
+    </Window.InputBindings>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <spacingstackpanels:SpacingStackPanel Margin="8" Spacing="20">
+        <spacingstackpanels:SpacingStackPanel Spacing="12">
+            <TextBlock Text="{Binding ProductName}" FontSize="24" />
+            <spacingstackpanels:SpacingStackPanel Spacing="4">
+                <TextBlock Text="{Binding ProductVersion}" FontSize="14" />
+                <TextBlock Text="{Binding LegalCopyright}" FontSize="14" />
+                <TextBlock Text="{Binding Description}" FontSize="14" TextWrapping="Wrap" />
+            </spacingstackpanels:SpacingStackPanel>
+        </spacingstackpanels:SpacingStackPanel>
+        <Button HorizontalAlignment="Right" Command="{Binding OkCommand}" IsDefault="True">OK</Button>
+    </spacingstackpanels:SpacingStackPanel>
+</Window>
