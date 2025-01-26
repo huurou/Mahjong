@@ -41,7 +41,7 @@ public class TileListTest
         var tiles = new TileList(man: "11");
 
         // Act
-        var actual = tiles.Toitsu;
+        var actual = tiles.IsToitsu;
 
         // Assert
         Assert.True(actual);
@@ -54,7 +54,7 @@ public class TileListTest
         var tiles = new TileList(man: "12");
 
         // Act
-        var actual = tiles.Toitsu;
+        var actual = tiles.IsToitsu;
 
         // Assert
         Assert.False(actual);
@@ -67,7 +67,7 @@ public class TileListTest
         var tiles = new TileList(man: "111");
 
         // Act
-        var actual = tiles.Toitsu;
+        var actual = tiles.IsToitsu;
 
         // Assert
         Assert.False(actual);
@@ -80,7 +80,7 @@ public class TileListTest
         var tiles = new TileList(man: "123");
 
         // Act
-        var actual = tiles.Shuntsu;
+        var actual = tiles.IsShuntsu;
 
         // Assert
         Assert.True(actual);
@@ -93,7 +93,7 @@ public class TileListTest
         var tiles = new TileList(man: "124");
 
         // Act
-        var actual = tiles.Shuntsu;
+        var actual = tiles.IsShuntsu;
 
         // Assert
         Assert.False(actual);
@@ -106,7 +106,7 @@ public class TileListTest
         var tiles = new TileList(man: "1234");
 
         // Act
-        var actual = tiles.Shuntsu;
+        var actual = tiles.IsShuntsu;
 
         // Assert
         Assert.False(actual);
@@ -119,7 +119,7 @@ public class TileListTest
         var tiles = new TileList(man: "89", pin: "1");
 
         // Act
-        var actual = tiles.Shuntsu;
+        var actual = tiles.IsShuntsu;
 
         // Assert
         Assert.False(actual);
@@ -132,7 +132,7 @@ public class TileListTest
         var tiles = new TileList(man: "111");
 
         // Act
-        var actual = tiles.Koutsu;
+        var actual = tiles.IsKoutsu;
 
         // Assert
         Assert.True(actual);
@@ -145,7 +145,7 @@ public class TileListTest
         var tiles = new TileList(man: "112");
 
         // Act
-        var actual = tiles.Koutsu;
+        var actual = tiles.IsKoutsu;
 
         // Assert
         Assert.False(actual);
@@ -158,7 +158,7 @@ public class TileListTest
         var tiles = new TileList(man: "1111");
 
         // Act
-        var actual = tiles.Koutsu;
+        var actual = tiles.IsKoutsu;
 
         // Assert
         Assert.False(actual);
@@ -171,7 +171,7 @@ public class TileListTest
         var tiles = new TileList(man: "1111");
 
         // Act
-        var actual = tiles.Kantsu;
+        var actual = tiles.IsKantsu;
 
         // Assert
         Assert.True(actual);
@@ -184,7 +184,7 @@ public class TileListTest
         var tiles = new TileList(man: "1112");
 
         // Act
-        var actual = tiles.Kantsu;
+        var actual = tiles.IsKantsu;
 
         // Assert
         Assert.False(actual);
@@ -197,7 +197,7 @@ public class TileListTest
         var tiles = new TileList(man: "111");
 
         // Act
-        var actual = tiles.Kantsu;
+        var actual = tiles.IsKantsu;
 
         // Assert
         Assert.False(actual);

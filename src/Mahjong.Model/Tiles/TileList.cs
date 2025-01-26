@@ -12,23 +12,23 @@ public record TileList : IEnumerable<Tile>, IEquatable<TileList>, IComparable<Ti
     /// <summary>
     /// 全て萬子かどうか
     /// </summary>
-    public bool AllMan => tiles_.All(x => x.IsMan);
+    public bool IsAllMan => tiles_.All(x => x.IsMan);
     /// <summary>
     /// 全て筒子かどうか
     /// </summary>
-    public bool AllPin => tiles_.All(x => x.IsPin);
+    public bool IsAllPin => tiles_.All(x => x.IsPin);
     /// <summary>
     /// 全て索子かどうか
     /// </summary>
-    public bool AllSou => tiles_.All(x => x.IsSou);
+    public bool IsAllSou => tiles_.All(x => x.IsSou);
     /// <summary>
     /// 全て字牌かどうか
     /// </summary>
-    public bool AllHonor => tiles_.All(x => x.IsHonor);
+    public bool IsAllHonor => tiles_.All(x => x.IsHonor);
     /// <summary>
     /// 全て風牌かどうか
     /// </summary>
-    public bool AllWind => tiles_.All(x => x.IsWind);
+    public bool IsAllWind => tiles_.All(x => x.IsWind);
 
     public Tile this[Index index] => tiles_[index];
     public TileList this[Range range]
@@ -43,19 +43,19 @@ public record TileList : IEnumerable<Tile>, IEquatable<TileList>, IComparable<Ti
     /// <summary>
     /// 対子かどうか
     /// </summary>
-    public bool Toitsu => Count == 2 && this.Distinct().Count() == 1;
+    public bool IsToitsu => Count == 2 && this.Distinct().Count() == 1;
     /// <summary>
     /// 順子かどうか
     /// </summary>
-    public bool Shuntsu => Count == 3 && this[0].Type == this[1].Type - 1 && this[1].Type == this[2].Type - 1 && (AllMan || AllPin || AllSou);
+    public bool IsShuntsu => Count == 3 && this[0].Type == this[1].Type - 1 && this[1].Type == this[2].Type - 1 && (IsAllMan || IsAllPin || IsAllSou);
     /// <summary>
     /// 刻子かどうか
     /// </summary>
-    public bool Koutsu => Count == 3 && this.Distinct().Count() == 1;
+    public bool IsKoutsu => Count == 3 && this.Distinct().Count() == 1;
     /// <summary>
     /// 槓子かどうか
     /// </summary>
-    public bool Kantsu => Count == 4 && this.Distinct().Count() == 1;
+    public bool IsKantsu => Count == 4 && this.Distinct().Count() == 1;
 
     private readonly ImmutableList<Tile> tiles_;
     private readonly ImmutableList<int> counts_;
