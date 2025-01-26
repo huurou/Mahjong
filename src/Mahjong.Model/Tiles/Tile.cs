@@ -149,7 +149,7 @@ public record Tile(TileType Type) : IComparable<Tile>
 
     #endregion シングルトンプロパティ
 
-    public static IEnumerable<Tile> All { get; } = Enumerable.Range(0, 34).Select(x => new Tile(x));
+    public static IEnumerable<Tile> All { get; } = Enum.GetValues<TileType>().Select(x => new Tile(x));
     public static IEnumerable<Tile> Mans { get; } = All.Where(x => x.IsMan);
     public static IEnumerable<Tile> Pins { get; } = All.Where(x => x.IsPin);
     public static IEnumerable<Tile> Sous { get; } = All.Where(x => x.IsSou);
