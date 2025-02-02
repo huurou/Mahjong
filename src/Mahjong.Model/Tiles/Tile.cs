@@ -166,6 +166,7 @@ public record Tile(TileType Type) : IComparable<Tile>
         : IsSou ? (int)Type - 17
         : IsHonor ? (int)Type - 26
         : throw new InvalidOperationException();
+
     /// <summary>
     /// 萬子かどうか
     /// </summary>

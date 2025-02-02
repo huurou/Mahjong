@@ -7,7 +7,7 @@ namespace Mahjong.Model.Fuuro;
 public record FuuroList : IEnumerable<Fuuro>
 {
     public bool HasOpen => this.Any(x => x.IsOpen);
-    public IEnumerable<TileList> TileLists => this.Select(x => x.TileList);
+    public int Count => fuuros_.Count;
 
     private readonly ImmutableList<Fuuro> fuuros_;
 

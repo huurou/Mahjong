@@ -16,6 +16,16 @@ public record TileListList : IEnumerable<TileList>, IEquatable<TileListList>
         tileLists_ = [.. tileLists];
     }
 
+    /// <summary>
+    /// 指定した牌の刻子か槓子が含まれているかどうか
+    /// </summary>
+    /// <param name="tile"></param>
+    /// <returns></returns>
+    public bool IncludesKoutsu(Tile tile)
+    {
+        return this.Any(x=>(x.IsKoutsu || x.IsKantsu) && x[0] == tile);
+    }
+
     public static TileListList FromOneLine(IEnumerable<string> oneLines)
     {
         return new(oneLines.Select(TileList.FromOneLine));
