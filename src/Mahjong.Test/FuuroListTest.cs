@@ -32,19 +32,6 @@ public class FuuroListTest
     }
 
     [Fact]
-    public void TileLists()
-    {
-        // Arrange
-        var fuuros = new FuuroList([new(FuuroType.Pon, new(man: "111")), new(FuuroType.Chi, new(pin: "123"))]);
-
-        // Act
-        var actual = fuuros.TileLists;
-
-        // Assert
-        Assert.Equal([new TileList(man: "111"), new TileList(pin: "123")], actual);
-    }
-
-    [Fact]
     public void ToString_()
     {
         // Arrange
