@@ -1,34 +1,19 @@
 ﻿using Mahjong.Model.Fuuro;
 using Mahjong.Model.Tiles;
-using System.Collections;
-using System.Collections.Immutable;
 
 namespace Mahjong.Model.Hands;
 
 /// <summary>
 /// 晒していない手牌
 /// </summary>
-public record Hand : IEnumerable<TileList>
+public record Hand : TileListList
 {
-    private readonly ImmutableList<TileList> hand_;
-
-    public Hand(IEnumerable<TileList> hand)
+    public Hand(IEnumerable<TileList> tileLists) : base(tileLists)
     {
-        hand_ = [.. hand];
     }
 
     public TileListList ConcatFuuro(FuuroList fuuroList)
     {
-        return new([.. hand_, .. fuuroList.Select(x => x.TileList)]);
-    }
-
-    public IEnumerator<TileList> GetEnumerator()
-    {
-        throw new NotImplementedException();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        throw new NotImplementedException();
+        return new([.. this, .. fuuroList.Select(x => x.TileList)]);
     }
 }
