@@ -1,5 +1,4 @@
 ﻿using Mahjong.Model.Fuuro;
-using Mahjong.Model.Tiles;
 
 namespace Mahjong.Test;
 
@@ -42,7 +41,6 @@ public class FuuroListTest
 
         // Assert
         Assert.Equal("ポン:一一一 チー:(1)(2)(3)", actual);
-
     }
 }
 

@@ -153,6 +153,7 @@ public record Tile(TileType Type) : IComparable<Tile>
     public static IEnumerable<Tile> Mans { get; } = All.Where(x => x.IsMan);
     public static IEnumerable<Tile> Pins { get; } = All.Where(x => x.IsPin);
     public static IEnumerable<Tile> Sous { get; } = All.Where(x => x.IsSou);
+    public static IEnumerable<Tile> Suits { get; } = All.Where(x => !x.IsHonor);
     public static IEnumerable<Tile> Honors { get; } = All.Where(x => x.IsHonor);
     public static IEnumerable<Tile> Chuuchans { get; } = All.Where(x => x.IsChuuchan);
     public static IEnumerable<Tile> Yaochuus { get; } = All.Where(x => x.IsYaochuu);
@@ -210,7 +211,7 @@ public record Tile(TileType Type) : IComparable<Tile>
 
     public Tile(int num) : this((TileType)num)
     {
-        Type = num is >= (int)TileType.Man1 and <= (int)TileType.Chun ? (TileType)num : throw new ArgumentException($"牌種別IDは{0}～{33}です。{nameof(num)}:{num}", nameof(num));
+        Type = num is >= (int)TileType.Man1 and <= (int)TileType.Chun ? (TileType)num : throw new ArgumentException($"TileTypeは0～33です。{nameof(num)}:{num}", nameof(num));
     }
 
     public int CompareTo(Tile? other)
@@ -241,5 +242,10 @@ public record Tile(TileType Type) : IComparable<Tile>
     public override string ToString()
     {
         return Type.ToStr();
+    }
+
+    public static Tile operator +(Tile tile, int num)
+    {
+        return new Tile((int)tile.Type + num);
     }
 }

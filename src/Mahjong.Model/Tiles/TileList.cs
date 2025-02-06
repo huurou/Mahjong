@@ -58,13 +58,11 @@ public record TileList : IEnumerable<Tile>, IEquatable<TileList>, IComparable<Ti
     public bool IsKantsu => Count == 4 && this.Distinct().Count() == 1;
 
     private readonly ImmutableList<Tile> tiles_;
-    private readonly ImmutableList<int> counts_;
 
     public TileList(IEnumerable<Tile> tiles)
     {
         tiles_ = [.. tiles];
-        counts_ = [.. Tile.All.Select(x => tiles.Count(y => x == y))];
-        if (counts_.Any(x => x > 4)) { throw new ArgumentException("同じ牌は4枚までです。", nameof(tiles)); }
+        if (Tile.All.Any(x => CountOf(x) > 4)) { throw new ArgumentException("同じ牌は4枚までです。", nameof(tiles)); }
     }
 
     public TileList(string man = "", string pin = "", string sou = "", string honor = "") : this(
@@ -123,12 +121,17 @@ public record TileList : IEnumerable<Tile>, IEquatable<TileList>, IComparable<Ti
 
     public int CountOf(Tile tile)
     {
-        return counts_[(int)tile.Type];
+        return tiles_.Count(x => x == tile);
     }
 
-    public TileList Add(Tile tile)
+    public TileList Add(Tile tile, int count = 1)
     {
-        return new(tiles_.Add(tile));
+        var tiles = tiles_;
+        for (var i = 0; i < count; i++)
+        {
+            tiles = tiles.Add(tile);
+        }
+        return new(tiles);
     }
 
     public TileList Remove(Tile tile, int count = 1)
@@ -136,6 +139,7 @@ public record TileList : IEnumerable<Tile>, IEquatable<TileList>, IComparable<Ti
         var tiles = tiles_;
         for (var i = 0; i < count; i++)
         {
+            if (!tiles.Contains(tile)) { throw new ArgumentException($"指定牌がありません。 tile:{tile} count:{count}", nameof(tile)); }
             tiles = tiles.Remove(tile);
         }
         return new(tiles);
