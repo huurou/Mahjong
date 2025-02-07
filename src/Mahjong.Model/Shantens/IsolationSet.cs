@@ -13,18 +13,11 @@ public record IsolationSet() : IEnumerable<Tile>
         isolationSet_ = isolationSet;
     }
 
-    public bool this[Tile tile] => isolationSet_.Contains(tile);
-
     public int Count => isolationSet_.Count;
 
     public IsolationSet Add(Tile tile)
     {
         return new(isolationSet_.Add(tile));
-    }
-
-    public IsolationSet Remove(Tile tile)
-    {
-        return new(isolationSet_.Remove(tile));
     }
 
     public IEnumerator<Tile> GetEnumerator()
