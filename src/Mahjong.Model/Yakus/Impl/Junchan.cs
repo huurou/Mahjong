@@ -15,9 +15,9 @@ public record Junchan : Yaku
 
     public static bool Valid(Hand hand, FuuroList fuuroList)
     {
-        var concated = hand.ConcatFuuro(fuuroList);
-        var shuntsus = concated.Count(x => x.IsShuntsu);
-        var routous = concated.Count(x => x.Any(x => x.IsRoutou));
+        var combined = hand.CombineFuuro(fuuroList);
+        var shuntsus = combined.Count(x => x.IsShuntsu);
+        var routous = combined.Count(x => x.Any(x => x.IsRoutou));
         return shuntsus != 0 && routous == 5;
     }
 }

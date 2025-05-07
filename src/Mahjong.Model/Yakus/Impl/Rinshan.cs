@@ -14,6 +14,6 @@ public record Rinshan : Yaku
 
     public static bool Valid(WinSituation situation)
     {
-        return situation.Rinshan;
+        return situation.IsRinshan;
     }
 }

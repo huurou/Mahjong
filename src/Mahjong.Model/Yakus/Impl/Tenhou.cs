@@ -13,6 +13,6 @@ public record Tenhou : Yaku
     public override bool IsYakuman => true;
     public static bool Valid(WinSituation situation)
     {
-        return situation.Tenhou;
+        return situation.IsTenhou;
     }
 }

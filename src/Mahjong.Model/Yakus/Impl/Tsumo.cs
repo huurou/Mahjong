@@ -15,6 +15,6 @@ public record Tsumo : Yaku
 
     public static bool Valid(WinSituation situation, FuuroList fuuroList)
     {
-        return situation.Tsumo && !fuuroList.HasOpen;
+        return situation.IsTsumo && !fuuroList.HasOpen;
     }
 }

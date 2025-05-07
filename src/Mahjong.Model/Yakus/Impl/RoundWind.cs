@@ -25,6 +25,6 @@ public record RoundWind : Yaku
             Wind.North => Tile.Pei,
             _ => throw new NotSupportedException()
         };
-        return hand.ConcatFuuro(fuuroList).IncludesKoutsu(windTile);
+        return hand.CombineFuuro(fuuroList).IncludesKoutsu(windTile);
     }
 }

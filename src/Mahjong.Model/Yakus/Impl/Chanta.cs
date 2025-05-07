@@ -15,7 +15,7 @@ public record Chanta : Yaku
 
     public static bool Valid(Hand hand, FuuroList fuuroList)
     {
-        var tileListList = hand.ConcatFuuro(fuuroList);
+        var tileListList = hand.CombineFuuro(fuuroList);
         var shuntsuCount = tileListList.Count(x => x.IsShuntsu);
         var routouCount = tileListList.Count(x => x.Any(y => y.IsRoutou));
         var honorCount = tileListList.Count(x => x.IsAllHonor);

@@ -15,6 +15,6 @@ public record Ippatsu : Yaku
 
     public static bool Valid(WinSituation situation, FuuroList fuuroList)
     {
-        return situation.Ippatsu && !fuuroList.HasOpen;
+        return situation.IsIppatsu && !fuuroList.HasOpen;
     }
 }

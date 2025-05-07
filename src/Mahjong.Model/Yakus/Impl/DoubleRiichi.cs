@@ -6,7 +6,7 @@ namespace Mahjong.Model.Yakus.Impl;
 /// <summary>
 /// ダブル立直
 /// </summary>
-public record DaburuRiichi : Yaku
+public record DoubleRiichi : Yaku
 {
     public override string Name => "ダブル立直";
     public override int HanOpen => 0;
@@ -15,6 +15,6 @@ public record DaburuRiichi : Yaku
 
     public static bool Valid(WinSituation situation, FuuroList fuuroList)
     {
-        return situation.DaburuRiichi && !fuuroList.HasOpen;
+        return situation.IsDoubleRiichi && !fuuroList.HasOpen;
     }
 }

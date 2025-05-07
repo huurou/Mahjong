@@ -15,7 +15,7 @@ public record Ittsuu : Yaku
 
     public static bool Valid(Hand hand, FuuroList fuuroList)
     {
-        var shuntsus = hand.ConcatFuuro(fuuroList).Where(x => x.IsShuntsu);
+        var shuntsus = hand.CombineFuuro(fuuroList).Where(x => x.IsShuntsu);
         if (shuntsus.Count() < 3) { return false; }
         var suits = new[]
         {

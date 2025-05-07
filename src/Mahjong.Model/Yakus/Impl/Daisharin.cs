@@ -15,6 +15,6 @@ public record Daisharin : Yaku
     public override bool IsYakuman => true;
     public static bool Valid(Hand hand, GameRules rules)
     {
-        return rules.Daisharin && new TileListList(hand) == TileListList.FromOneLine(["22p", "33p", "44p", "55p", "66p", "77p", "88p"]);
+        return rules.DaisharinEnabled && new TileListList(hand) == TileListList.FromOneLine(["22p", "33p", "44p", "55p", "66p", "77p", "88p"]);
     }
 }

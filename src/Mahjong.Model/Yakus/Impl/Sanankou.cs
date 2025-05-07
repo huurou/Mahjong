@@ -17,7 +17,7 @@ public record Sanankou : Yaku
     public static bool Valid(Hand hand, TileList winGroup, FuuroList fuuroList, WinSituation situation)
     {
         var ankoTiles =
-            situation.Tsumo ? hand.Where(x => x.IsKoutsu)
+            situation.IsTsumo ? hand.Where(x => x.IsKoutsu)
             : hand.Where(x => x.IsKoutsu && x != winGroup);
         var ankanTiles = fuuroList.Where(x => x.IsAnkan).Select(x => x.TileList);
         return ankoTiles.Count() + ankanTiles.Count() == 3;

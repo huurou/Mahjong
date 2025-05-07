@@ -12,7 +12,7 @@ public record Hand : TileListList
     {
     }
 
-    public TileListList ConcatFuuro(FuuroList fuuroList)
+    public TileListList CombineFuuro(FuuroList fuuroList)
     {
         return new([.. this, .. fuuroList.Select(x => x.TileList)]);
     }

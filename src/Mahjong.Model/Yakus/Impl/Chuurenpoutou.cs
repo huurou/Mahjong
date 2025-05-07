@@ -14,7 +14,7 @@ public record Chuurenpoutou : Yaku
 
     public static bool Valid(Hand hand)
     {
-        if (hand.All(x => x.IsAllMan) || hand.All(x => x.IsAllPin) || hand.All(x => x.IsAllSou)) { return false; }
+        if (!(hand.All(x => x.IsAllMan) || hand.All(x => x.IsAllPin) || hand.All(x => x.IsAllSou))) { return false; }
         var mans = hand.Where(x => x.IsAllMan);
         var pins = hand.Where(x => x.IsAllPin);
         var sous = hand.Where(x => x.IsAllSou);

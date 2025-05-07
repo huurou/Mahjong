@@ -16,7 +16,7 @@ public record Tanyao : Yaku
 
     public static bool Valid(Hand hand, FuuroList fuuroList, GameRules rules)
     {
-        return hand.ConcatFuuro(fuuroList).All(x => x.All(y => y.IsChuuchan)) &&
-            (!fuuroList.HasOpen || rules.Kuitan);
+        return hand.CombineFuuro(fuuroList).All(x => x.All(y => y.IsChuuchan)) &&
+            (!fuuroList.HasOpen || rules.KuitanEnabled);
     }
 }

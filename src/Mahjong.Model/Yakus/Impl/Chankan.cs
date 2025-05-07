@@ -14,6 +14,6 @@ public record Chankan : Yaku
 
     public static bool Valid(WinSituation situation)
     {
-        return situation.Chankan;
+        return situation.IsChankan;
     }
 }

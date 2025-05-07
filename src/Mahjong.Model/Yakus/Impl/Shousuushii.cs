@@ -15,10 +15,10 @@ public record Shousuushii : Yaku
 
     public static bool Valid(Hand hand, FuuroList fuuroList)
     {
-        var concated = hand.ConcatFuuro(fuuroList);
-        var koutsus = concated.Where(x => x.IsKoutsu || x.IsKantsu);
-        var toitsus = concated.Where(x => x.IsToitsu);
-        return concated.Where(x => x.IsKoutsu || x.IsKantsu).Count(x => x[0].IsWind) == 3 &&
-            concated.Where(x => x.IsToitsu).Count(x => x[0].IsWind) == 1;
+        var combined = hand.CombineFuuro(fuuroList);
+        var koutsus = combined.Where(x => x.IsKoutsu || x.IsKantsu);
+        var toitsus = combined.Where(x => x.IsToitsu);
+        return combined.Where(x => x.IsKoutsu || x.IsKantsu).Count(x => x[0].IsWind) == 3 &&
+            combined.Where(x => x.IsToitsu).Count(x => x[0].IsWind) == 1;
     }
 }

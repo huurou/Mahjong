@@ -8,7 +8,7 @@ public abstract record Yaku
 
     // 状況による役
     public static Riichi Riichi { get; } = new();
-    public static DaburuRiichi DaburuRiichi { get; } = new();
+    public static DoubleRiichi DaburuRiichi { get; } = new();
     public static Tsumo Tsumo { get; } = new();
     public static Ippatsu Ippatsu { get; } = new();
     public static Chankan Chankan { get; } = new();
@@ -62,7 +62,7 @@ public abstract record Yaku
     public static Daisharin Daisharin { get; } = new();
 
     // ダブル役満
-    public static DaisuushiiDaburu DaisuushiiDaburu { get; } = new();
+    public static DaisuushiiDouble DaisuushiiDaburu { get; } = new();
     public static Kokushimusou13 Kokushimusou13 { get; } = new();
     public static SuuankouTanki SuuankouTanki { get; } = new();
     public static JunseiChuurenpoutou JunseiChuurenpoutou { get; } = new();

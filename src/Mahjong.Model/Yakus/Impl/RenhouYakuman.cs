@@ -13,6 +13,6 @@ public record RenhouYakuman : Yaku
     public override bool IsYakuman => true;
     public static bool Valid(WinSituation situation, GameRules rules)
     {
-        return situation.Renhou && rules.RenhouAsYakuman;
+        return situation.IsRenhou && rules.RenhouAsYakumanEnabled;
     }
 }

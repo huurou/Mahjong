@@ -14,6 +14,6 @@ public record Nagashimangan : Yaku
 
     public static bool Valid(WinSituation situation)
     {
-        return situation.Nagashimangan;
+        return situation.IsNagashimangan;
     }
 }

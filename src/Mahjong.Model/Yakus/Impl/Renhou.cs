@@ -14,6 +14,6 @@ public record Renhou : Yaku
 
     public static bool Valid(WinSituation situation, GameRules rules)
     {
-        return situation.Renhou && !rules.RenhouAsYakuman;
+        return situation.IsRenhou && !rules.RenhouAsYakumanEnabled;
     }
 }

@@ -9,7 +9,7 @@ namespace Mahjong.Model.Yakus.Impl;
 public record SuuankouTanki : Yaku
 {
     public override string Name => "四暗刻単騎";
-    public override int HanOpen => 26;
+    public override int HanOpen => 0;
     public override int HanClosed => 26;
     public override bool IsYakuman => true;
     public static bool Valid(Hand hand, Tile winTile)

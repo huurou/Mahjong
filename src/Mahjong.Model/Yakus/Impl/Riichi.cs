@@ -15,6 +15,6 @@ public record Riichi : Yaku
 
     public static bool Valid(WinSituation situation, FuuroList fuuroList)
     {
-        return situation.Riichi && !situation.DaburuRiichi && !fuuroList.HasOpen;
+        return situation.IsRiichi && !situation.IsDoubleRiichi && !fuuroList.HasOpen;
     }
 }

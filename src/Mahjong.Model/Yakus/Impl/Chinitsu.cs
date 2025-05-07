@@ -15,7 +15,7 @@ public record Chinitsu : Yaku
 
     public static bool Valid(Hand hand, FuuroList fuuroList)
     {
-        var concated = hand.ConcatFuuro(fuuroList);
-        return concated.All(x => x.IsAllMan) || concated.All(x => x.IsAllPin) || concated.All(x => x.IsAllSou);
+        var combined = hand.CombineFuuro(fuuroList);
+        return combined.All(x => x.IsAllMan) || combined.All(x => x.IsAllPin) || combined.All(x => x.IsAllSou);
     }
 }

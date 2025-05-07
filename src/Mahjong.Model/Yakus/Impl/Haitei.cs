@@ -14,6 +14,6 @@ public record Haitei : Yaku
 
     public static bool Valid(WinSituation situation)
     {
-        return situation.Haitei;
+        return situation.IsHaitei;
     }
 }

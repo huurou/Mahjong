@@ -15,7 +15,7 @@ public record Daisuushii : Yaku
 
     public static bool Valid(Hand hand, FuuroList fuuroList)
     {
-        var concated = hand.ConcatFuuro(fuuroList);
-        return concated.Count(x => (x.IsKoutsu || x.IsKantsu) && x.IsAllWind) == 4;
+        var combined = hand.CombineFuuro(fuuroList);
+        return combined.Count(x => (x.IsKoutsu || x.IsKantsu) && x.IsAllWind) == 4;
     }
 }

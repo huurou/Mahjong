@@ -2,7 +2,7 @@
 
 namespace Mahjong.Model.Shantens;
 
-public static class Shanten
+public static class ShantenCalculator
 {
     public const int AGARI_SHANTEN = -1;
 
@@ -29,9 +29,9 @@ public static class Shanten
         context = context with
         {
             MentsuCount = context.MentsuCount + (14 - context.TileList.Count) / 3,
-            FourSuits = [.. Tile.Suits.Where(x => context.TileList.CountOf(x) == 4)]
+            KantsuNumbers = [.. Tile.Suits.Where(x => context.TileList.CountOf(x) == 4)]
         };
-        return context.ScanSuit();
+        return context.ScanNumber();
     }
 
     public static int CalculateForChiitoitsu(TileList tileList)

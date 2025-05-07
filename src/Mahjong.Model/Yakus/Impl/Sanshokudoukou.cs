@@ -15,7 +15,7 @@ public record Sanshokudoukou : Yaku
 
     public static bool Valid(Hand hand, FuuroList fuuroList)
     {
-        var koutsus = hand.ConcatFuuro(fuuroList).Where(x => x.IsKoutsu || x.IsKantsu).Select(x => x.Take(3).ToList());
+        var koutsus = hand.CombineFuuro(fuuroList).Where(x => x.IsKoutsu || x.IsKantsu).Select(x => x.Take(3).ToList());
         if (koutsus.Count() < 3) { return false; }
         var mans = koutsus.Where(x => x[0].IsMan);
         var pins = koutsus.Where(x => x[0].IsPin);

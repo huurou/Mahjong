@@ -16,6 +16,6 @@ public record Hatsu : Yaku
 
     public static bool Valid(Hand hand, FuuroList fuuroList)
     {
-        return hand.ConcatFuuro(fuuroList).IncludesKoutsu(Tile.Hatsu);
+        return hand.CombineFuuro(fuuroList).IncludesKoutsu(Tile.Hatsu);
     }
 }

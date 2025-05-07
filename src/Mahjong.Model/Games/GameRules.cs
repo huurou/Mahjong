@@ -8,12 +8,12 @@ public record GameRules
     /// <summary>
     /// 喰いタンあり/なし
     /// </summary>
-    public bool Kuitan { get; init; } = true;
+    public bool KuitanEnabled { get; init; } = true;
 
     /// <summary>
     /// ダブル役満あり/なし
     /// </summary>
-    public bool DaburuYakuman { get; init; } = true;
+    public bool DaburuYakumanEnabled { get; init; } = true;
 
     /// <summary>
     /// 数え役満
@@ -23,20 +23,20 @@ public record GameRules
     /// <summary>
     /// 切り上げ満貫あり/なし
     /// </summary>
-    public bool Kiriage { get; init; } = false;
+    public bool KiriageEnabled { get; init; } = false;
 
     /// <summary>
     /// ピンヅモあり/なし
     /// </summary>
-    public bool Pinzumo { get; init; } = true;
+    public bool PinzumoEnabled { get; init; } = true;
 
     /// <summary>
     /// 人和役満あり/なし
     /// </summary>
-    public bool RenhouAsYakuman { get; init; } = false;
+    public bool RenhouAsYakumanEnabled { get; init; } = false;
 
     /// <summary>
     /// 大車輪あり/なし
     /// </summary>
-    public bool Daisharin { get; init; } = false;
+    public bool DaisharinEnabled { get; init; } = false;
 }

@@ -15,6 +15,6 @@ public record Sankantsu : Yaku
 
     public static bool Valid(Hand hand, FuuroList fuuroList)
     {
-        return hand.ConcatFuuro(fuuroList).Count(x => x.IsKantsu) == 3;
+        return hand.CombineFuuro(fuuroList).Count(x => x.IsKantsu) == 3;
     }
 }

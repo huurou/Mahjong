@@ -14,6 +14,6 @@ public record Tsuuiisou : Yaku
     public override bool IsYakuman => true;
     public static bool Valid(Hand hand, FuuroList fuuroList)
     {
-        return hand.ConcatFuuro(fuuroList).All(x => x.IsAllHonor);
+        return hand.CombineFuuro(fuuroList).All(x => x.IsAllHonor);
     }
 }

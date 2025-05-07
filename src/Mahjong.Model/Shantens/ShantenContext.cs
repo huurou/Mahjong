@@ -8,9 +8,9 @@ public record ShantenContext(TileList TileList)
     public int MentsuCount { get; init; }
     public int ToitsuCount { get; init; }
     public int TatsuCount { get; init; }
-    public int JidahaiCount { get; init; }
+    public int KantsuCount { get; init; }
     public IsolationSet IsolationSet { get; init; } = [];
-    public List<Tile> FourSuits { get; init; } = [];
+    public List<Tile> KantsuNumbers { get; init; } = [];
 
     public ShantenContext ScanHonor()
     {
@@ -25,20 +25,20 @@ public record ShantenContext(TileList TileList)
                 4 => context with
                 {
                     MentsuCount = context.MentsuCount + 1,
-                    JidahaiCount = context.JidahaiCount + 1,
+                    KantsuCount = context.KantsuCount + 1,
                     IsolationSet = context.IsolationSet.Add(honor),
                 },
                 _ => context,
             };
         }
-        if (context.JidahaiCount != 0 && context.TileList.Count % 3 == 2)
+        if (context.KantsuCount != 0 && context.TileList.Count % 3 == 2)
         {
-            context = context with { JidahaiCount = context.JidahaiCount - 1 };
+            context = context with { KantsuCount = context.KantsuCount - 1 };
         }
         return context;
     }
 
-    public int ScanSuit()
+    public int ScanNumber()
     {
         var context = this;
         while (context.TileList.CountOf(context.Tile) == 0)
@@ -51,82 +51,82 @@ public record ShantenContext(TileList TileList)
         }
         return context.TileList.CountOf(context.Tile) switch
         {
-            1 => context.ScanSuit1(),
-            2 => context.ScanSuit2(),
-            3 => context.ScanSuit3(),
-            4 => context.ScanSuit4(),
+            1 => context.ScanNumber1(),
+            2 => context.ScanNumber2(),
+            3 => context.ScanNumber3(),
+            4 => context.ScanNumber4(),
             _ => throw new InvalidOperationException(),
         };
     }
 
-    private int ScanSuit1()
+    private int ScanNumber1()
     {
         List<int> shantens = [];
         if (Tile.Number <= 6 &&
             TileList.CountOf(Tile + 1) == 1 &&
             TileList.CountOf(Tile + 2) > 0 &&
-            TileList.CountOf(new(Tile.Type + 3)) != 4)
+            TileList.CountOf((Tile + 3)) != 4)
         {
-            shantens.Add(RemoveShuntsu().ScanSuit());
+            shantens.Add(RemoveShuntsu().ScanNumber());
         }
         else
         {
-            shantens.Add(RemoveIsolation().ScanSuit());
+            shantens.Add(RemoveIsolation().ScanNumber());
             if (Tile.Number <= 7 && TileList.CountOf(Tile + 2) > 0)
             {
                 if (TileList.CountOf(Tile + 1) > 0)
                 {
-                    shantens.Add(RemoveShuntsu().ScanSuit());
+                    shantens.Add(RemoveShuntsu().ScanNumber());
                 }
-                shantens.Add(RemoveKanchan().ScanSuit());
+                shantens.Add(RemoveKanchan().ScanNumber());
             }
             if (Tile.Number <= 8 && TileList.CountOf(Tile + 1) > 0)
             {
-                shantens.Add(RemoveRyanmen().ScanSuit());
+                shantens.Add(RemoveRyanmen().ScanNumber());
             }
         }
         return shantens.Min();
     }
 
-    private int ScanSuit2()
+    private int ScanNumber2()
     {
         List<int> shantens = [];
-        shantens.Add(RemoveToitsu().ScanSuit());
+        shantens.Add(RemoveToitsu().ScanNumber());
         if (Tile.Number <= 7 && TileList.CountOf(Tile + 1) > 0 && TileList.CountOf(Tile + 2) > 0)
         {
-            shantens.Add(RemoveShuntsu().ScanSuit());
+            shantens.Add(RemoveShuntsu().ScanNumber());
         }
         return shantens.Min();
     }
 
-    private int ScanSuit3()
+    private int ScanNumber3()
     {
         List<int> shantens = [];
-        shantens.Add(RemoveKoutsu().ScanSuit());
+        shantens.Add(RemoveKoutsu().ScanNumber());
         var toitsuRemoved = RemoveToitsu();
         if (Tile.Number <= 7 && toitsuRemoved.TileList.CountOf(Tile + 1) > 0 && toitsuRemoved.TileList.CountOf(Tile + 2) > 0)
         {
-            shantens.Add(toitsuRemoved.RemoveShuntsu().ScanSuit());
+            shantens.Add(toitsuRemoved.RemoveShuntsu().ScanNumber());
         }
         else
         {
             if (Tile.Number <= 7 && toitsuRemoved.TileList.CountOf(Tile + 2) > 0)
             {
-                shantens.Add(toitsuRemoved.RemoveKanchan().ScanSuit());
+                shantens.Add(toitsuRemoved.RemoveKanchan().ScanNumber());
             }
             if (Tile.Number <= 8 && toitsuRemoved.TileList.CountOf(Tile + 1) > 0)
             {
-                shantens.Add(toitsuRemoved.RemoveRyanmen().ScanSuit());
+                shantens.Add(toitsuRemoved.RemoveRyanmen().ScanNumber());
             }
         }
         if (Tile.Number <= 7 && TileList.CountOf(Tile + 1) >= 2 && TileList.CountOf(Tile + 2) >= 2)
         {
-            shantens.Add(RemoveShuntsu().RemoveShuntsu().ScanSuit());
+            shantens.Add(RemoveShuntsu().RemoveShuntsu().ScanNumber());
         }
         return shantens.Min();
     }
 
-    private int ScanSuit4()
+    private int ScanNumber4()
     {
         List<int> shantens = [];
         var koutsuRemoved = RemoveKoutsu();
@@ -134,27 +134,27 @@ public record ShantenContext(TileList TileList)
         {
             if (koutsuRemoved.TileList.CountOf(Tile + 1) > 0)
             {
-                shantens.Add(koutsuRemoved.RemoveShuntsu().ScanSuit());
+                shantens.Add(koutsuRemoved.RemoveShuntsu().ScanNumber());
             }
-            shantens.Add(koutsuRemoved.RemoveKanchan().ScanSuit());
+            shantens.Add(koutsuRemoved.RemoveKanchan().ScanNumber());
         }
         if (Tile.Number <= 8 && koutsuRemoved.TileList.CountOf(Tile + 1) > 0)
         {
-            shantens.Add(koutsuRemoved.RemoveRyanmen().ScanSuit());
+            shantens.Add(koutsuRemoved.RemoveRyanmen().ScanNumber());
         }
-        shantens.Add(koutsuRemoved.RemoveIsolation().ScanSuit());
+        shantens.Add(koutsuRemoved.RemoveIsolation().ScanNumber());
         var toitsuRemoved = RemoveToitsu();
         if (Tile.Number <= 7 && toitsuRemoved.TileList.CountOf(Tile + 2) > 0)
         {
             if (toitsuRemoved.TileList.CountOf(Tile + 1) > 0)
             {
-                shantens.Add(toitsuRemoved.RemoveShuntsu().ScanSuit());
+                shantens.Add(toitsuRemoved.RemoveShuntsu().ScanNumber());
             }
-            shantens.Add(toitsuRemoved.RemoveKanchan().ScanSuit());
+            shantens.Add(toitsuRemoved.RemoveKanchan().ScanNumber());
         }
         if (Tile.Number <= 8 && toitsuRemoved.TileList.CountOf(Tile + 1) > 0)
         {
-            shantens.Add(toitsuRemoved.RemoveRyanmen().ScanSuit());
+            shantens.Add(toitsuRemoved.RemoveRyanmen().ScanNumber());
         }
         return shantens.Min();
     }
@@ -168,8 +168,8 @@ public record ShantenContext(TileList TileList)
             mentsuKouho += ToitsuCount - 1;
         }
         // 同種の数牌を4枚持っているときに刻子&単騎待ちとみなされないようにする
-        else if (IsolationSet.Count > 0 && FourSuits.Count > 0 &&
-            IsolationSet.All(FourSuits.Contains))
+        else if (IsolationSet.Count > 0 && KantsuNumbers.Count > 0 &&
+            IsolationSet.All(KantsuNumbers.Contains))
         {
             shanten++;
         }
@@ -177,9 +177,9 @@ public record ShantenContext(TileList TileList)
         {
             shanten += mentsuKouho - 4;
         }
-        if (shanten != Shanten.AGARI_SHANTEN && shanten < JidahaiCount)
+        if (shanten != ShantenCalculator.AGARI_SHANTEN && shanten < KantsuCount)
         {
-            shanten = JidahaiCount;
+            shanten = KantsuCount;
         }
         return shanten;
     }

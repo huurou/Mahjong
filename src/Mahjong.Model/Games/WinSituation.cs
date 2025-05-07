@@ -8,62 +8,62 @@ public record WinSituation
     /// <summary>
     /// ツモアガリかどうか
     /// </summary>
-    public bool Tsumo { get; init; } = false;
+    public bool IsTsumo { get; init; } = false;
 
     /// <summary>
     /// リーチ
     /// </summary>
-    public bool Riichi { get; init; } = false;
+    public bool IsRiichi { get; init; } = false;
 
     /// <summary>
     /// 一発
     /// </summary>
-    public bool Ippatsu { get; init; } = false;
+    public bool IsIppatsu { get; init; } = false;
 
     /// <summary>
     /// 嶺上開花
     /// </summary>
-    public bool Rinshan { get; init; } = false;
+    public bool IsRinshan { get; init; } = false;
 
     /// <summary>
     /// 槍槓
     /// </summary>
-    public bool Chankan { get; init; } = false;
+    public bool IsChankan { get; init; } = false;
 
     /// <summary>
     /// 海底撈月
     /// </summary>
-    public bool Haitei { get; init; } = false;
+    public bool IsHaitei { get; init; } = false;
 
     /// <summary>
     /// 河底撈魚
     /// </summary>
-    public bool Houtei { get; init; } = false;
+    public bool IsHoutei { get; init; } = false;
 
     /// <summary>
     /// ダブル立直
     /// </summary>
-    public bool DaburuRiichi { get; init; } = false;
+    public bool IsDoubleRiichi { get; init; } = false;
 
     /// <summary>
     /// 流し満貫
     /// </summary>
-    public bool Nagashimangan { get; init; } = false;
+    public bool IsNagashimangan { get; init; } = false;
 
     /// <summary>
     /// 天和
     /// </summary>
-    public bool Tenhou { get; init; } = false;
+    public bool IsTenhou { get; init; } = false;
 
     /// <summary>
     /// 地和
     /// </summary>
-    public bool Chiihou { get; init; } = false;
+    public bool IsChiihou { get; init; } = false;
 
     /// <summary>
     /// 人和
     /// </summary>
-    public bool Renhou { get; init; } = false;
+    public bool IsRenhou { get; init; } = false;
 
     /// <summary>
     /// 自風

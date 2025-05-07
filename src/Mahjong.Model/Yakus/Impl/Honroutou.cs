@@ -15,6 +15,6 @@ public record Honroutou : Yaku
 
     public static bool Valid(Hand hand, FuuroList fuuroList)
     {
-        return hand.ConcatFuuro(fuuroList).All(x => x.All(y => y.IsYaochuu));
+        return hand.CombineFuuro(fuuroList).All(x => x.All(y => y.IsYaochuu));
     }
 }

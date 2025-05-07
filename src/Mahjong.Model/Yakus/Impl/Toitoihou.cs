@@ -15,6 +15,6 @@ public record Toitoihou : Yaku
 
     public static bool Valid(Hand hand, FuuroList fuuroList)
     {
-        return hand.ConcatFuuro(fuuroList).Count(x => x.IsKoutsu || x.IsKantsu) == 4;
+        return hand.CombineFuuro(fuuroList).Count(x => x.IsKoutsu || x.IsKantsu) == 4;
     }
 }

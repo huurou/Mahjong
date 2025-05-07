@@ -6,7 +6,7 @@ namespace Mahjong.Model.Yakus.Impl;
 /// <summary>
 /// 大四喜ダブル
 /// </summary>
-public record DaisuushiiDaburu : Yaku
+public record DaisuushiiDouble : Yaku
 {
     public override string Name => "大四喜";
     public override int HanOpen => 26;

@@ -15,11 +15,11 @@ public record Honitsu : Yaku
 
     public static bool Valid(Hand hand, FuuroList fuuroList)
     {
-        var concated = hand.ConcatFuuro(fuuroList);
-        var manCount = concated.Count(x => x.IsAllMan);
-        var pinCount = concated.Count(x => x.IsAllPin);
-        var souCount = concated.Count(x => x.IsAllSou);
-        var honorCount = concated.Count(x => x.IsAllHonor);
+        var combined = hand.CombineFuuro(fuuroList);
+        var manCount = combined.Count(x => x.IsAllMan);
+        var pinCount = combined.Count(x => x.IsAllPin);
+        var souCount = combined.Count(x => x.IsAllSou);
+        var honorCount = combined.Count(x => x.IsAllHonor);
         return new[] { manCount, pinCount, souCount }.Count(x => x != 0) == 1 && honorCount != 0;
     }
 }
